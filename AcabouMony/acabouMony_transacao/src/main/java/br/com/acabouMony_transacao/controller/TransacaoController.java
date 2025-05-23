@@ -23,9 +23,9 @@ public class TransacaoController {
 //        return ResponseEntity.status(200).body(service.listar());
 //    }
 //
-//    @PostMapping
-//    public ResponseEntity<ListagemTransacaoDto> cadastrar(@RequestBody CadastroTransacaoDto dados){
-//        return ResponseEntity.status(201).body(service.criar(dados));
-//    }
+    @PostMapping
+    public ResponseEntity<ListagemTransacaoDto> cadastrar(@RequestBody CadastroTransacaoDto dados){
+        return ResponseEntity.status(201).body(service.criar(dados));
+    }
 
 }
