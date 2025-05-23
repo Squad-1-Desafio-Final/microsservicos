@@ -70,4 +70,13 @@ public class ProdutoService {
                 .collect(Collectors.toList());
 
     }
+
+    public List<Produto> listarId(List<UUID> idProduto){
+        List<Produto> listar = repository.findAllById(idProduto);
+
+        return listar;
+    }
+
+
+
 }

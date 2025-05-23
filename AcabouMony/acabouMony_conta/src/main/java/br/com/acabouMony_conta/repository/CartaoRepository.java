@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface CartaoRepository extends JpaRepository<Cartao, UUID> {
 
     // trocar no nome do database
-    @Query("SELECT new br.com.acabouMony.dto.ListagemCartaoDTO(c.numero, c.tipo) FROM Cartao c")
+    @Query("SELECT new br.com.acabouMony_conta.dto.ListagemCartaoDTO(c.numero, c.tipo) FROM Cartao c")
     List<ListagemCartaoDTO> listarNumETipo();
 
     @Modifying
