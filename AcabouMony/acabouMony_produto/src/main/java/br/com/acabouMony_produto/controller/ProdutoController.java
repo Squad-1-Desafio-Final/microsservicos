@@ -2,6 +2,7 @@ package br.com.acabouMony_produto.controller;
 
 
 import br.com.acabouMony_produto.dto.CadastroProdutoDto;
+import br.com.acabouMony_produto.entity.Produto;
 import br.com.acabouMony_produto.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,11 @@ public class ProdutoController {
 
         return ResponseEntity.status(200).body(service.listarTodos());
 
+    }
+
+    @GetMapping("/findAllById/{id}")
+    public ResponseEntity<List<Produto>> listarPorId(@PathVariable List<UUID> idProduto){
+        return ResponseEntity.status(200).body(service.listarId(idProduto));
     }
 
 
