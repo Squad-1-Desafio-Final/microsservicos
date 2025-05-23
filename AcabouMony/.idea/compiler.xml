@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Annotation profile for acabouMony_transacao" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.6.3/mapstruct-1.6.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
+        <module name="acabouMony_conta" />
+        <module name="acabouMony_pedido" />
+        <module name="acabouMony_produto" />
+        <module name="acabouMony_transacao" />
+        <module name="acabouMony_usuario" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="acabouMony_conta" options="-parameters" />
+      <module name="acabouMony_pedido" options="-parameters" />
+      <module name="acabouMony_produto" options="-parameters" />
+      <module name="acabouMony_transacao" options="-parameters" />
+      <module name="acabouMony_usuario" options="-parameters" />
+    </option>
+  </component>
+</project>
