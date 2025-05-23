@@ -3,6 +3,7 @@ package br.com.acabouMony_conta.service;
 import br.com.acabouMony_conta.dto.CadastroCartaoDTO;
 import br.com.acabouMony_conta.dto.ListagemCartaoDTO;
 import br.com.acabouMony_conta.dto.ListagemContaDTO;
+import br.com.acabouMony_conta.entity.Cartao;
 import br.com.acabouMony_conta.mapper.CartaoMapper;
 import br.com.acabouMony_conta.repository.CartaoRepository;
 import br.com.acabouMony_conta.tipos.TipoPagamento;
@@ -36,14 +37,11 @@ public class CartaoService {
 
         var requisicaoURL = "http://localhost:8080/conta/" + dto.idConta();
 
-        try {
-            var conta = restTemplate.getForObject(requisicaoURL, Object.class);
-        } catch (HttpClientErrorException.NotFound e) {
-            throw new RuntimeException("Conta não encontrada");
-        }
+        var conta = restTemplate.getForObject(requisicaoURL, Object.class);
 
-        var cartao = cartaoMapper.toEntity(dto);
-        cartao.setIdCartao(dto.idConta());
+        var cartao = new Cartao();
+        cartao.setSenha(dto.senha());
+        cartao.setIdConta(dto.idConta());
         cartao.setTipo(TipoPagamento.fromString(dto.tipoPagamento()));
         cartao.setSenha(dto.senha());
         cartao.setAtivo(true);

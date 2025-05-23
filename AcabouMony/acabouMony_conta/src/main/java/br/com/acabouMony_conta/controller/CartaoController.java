@@ -24,6 +24,7 @@ public class CartaoController {
             var cartao = cartaoService.saveCartao(dto);
             return ResponseEntity.status(201).body(cartao);
         } catch (RuntimeException e) {
+            e.printStackTrace();
             return ResponseEntity.status(409).build();
         }
     }
