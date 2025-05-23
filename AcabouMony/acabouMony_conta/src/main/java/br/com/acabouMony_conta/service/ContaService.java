@@ -31,13 +31,9 @@ public class ContaService {
 
     public ListagemContaDTO saveConta(CadastroContaDTO dto) {
 
-        var requisicaoURL = "http://localhost:8080/usuario/" + dto.idUsuario();
+        var requisicaoURL = "http://localhost:8084/usuario/" + dto.idUsuario();
 
-        try {
             var usuario = restTemplate.getForObject(requisicaoURL, Object.class);
-        } catch (HttpClientErrorException.NotFound e) {
-            throw new RuntimeException("Usuário não encontrado");
-        }
 
         if (contaRepository.existsByNumero(dto.numero())) {
             throw new RuntimeException("Conta com esse número já existe");

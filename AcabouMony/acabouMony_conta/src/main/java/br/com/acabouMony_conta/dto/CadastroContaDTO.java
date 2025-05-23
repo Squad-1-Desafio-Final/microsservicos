@@ -11,5 +11,5 @@ public record CadastroContaDTO(LocalDate dataVencimento,
                                @NotNull int agencia,
                                @NotNull int numero,
                                @NotNull int banco,
-                               @NotBlank UUID idUsuario) {
+                                UUID idUsuario) {
 }
