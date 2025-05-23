@@ -1,11 +1,10 @@
 package br.com.acabouMony_usuario.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import br.com.acabouMony_usuario.dto.CadastroEnderecoDTO;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
@@ -13,6 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Endereco {
 
@@ -34,32 +34,7 @@ public class Endereco {
 
     private String cep;
 
-    private UUID idUsuario;
+    @OneToOne
+    private Usuario usuario;
 
-
-    // ✅ Required no-args constructor
-    public Endereco() {}
-
-    public Endereco(br.com.acabouMony_usuario.dto.CadastroEnderecoDTO dto) {
-        this.id = UUID.randomUUID(); // Or set externally
-        this.logradouro = dto.logradouro();
-        this.numero = dto.numero();
-        this.complemento = dto.complemento();
-        this.bairro = dto.bairro();
-        this.cidade = dto.cidade();
-        this.estado = dto.estado();
-        this.cep = dto.cep();
-    }
-
-    public Endereco(UUID id, String logradouro, int numero, String complemento,
-                    String bairro, String cidade, String estado, String cep) {
-        this.id = id;
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.cep = cep;
-    }
 }

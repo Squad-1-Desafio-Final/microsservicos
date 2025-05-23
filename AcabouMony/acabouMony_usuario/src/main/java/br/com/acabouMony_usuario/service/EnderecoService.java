@@ -1,13 +1,12 @@
 package br.com.acabouMony_usuario.service;
 
 
-
 import br.com.acabouMony_usuario.dto.CadastroEnderecoDTO;
 import br.com.acabouMony_usuario.dto.ListagemEnderecoDTO;
 import br.com.acabouMony_usuario.entity.Endereco;
 import br.com.acabouMony_usuario.mapper.EnderecoMapper;
 import br.com.acabouMony_usuario.repository.EnderecoRepository;
-import jakarta.transaction.Transactional;
+import br.com.acabouMony_usuario.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +22,18 @@ public class EnderecoService {
     @Autowired
     private EnderecoMapper enderecoMapper;
 
-    @Transactional
-    public ListagemEnderecoDTO saveEndereco(CadastroEnderecoDTO enderecoDTO) {
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-        var endereco = new Endereco(enderecoDTO);
+    public void saveEndereco(CadastroEnderecoDTO enderecoDTO) {
+
+        var usuario = usuarioRepository.findById(enderecoDTO.idUsuario())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        var endereco = enderecoMapper.toEntity(enderecoDTO);
+        endereco.setUsuario(usuario);
+
         enderecoRepository.save(endereco);
-        return enderecoMapper.toListagemEnderecoDTO(endereco);
     }
 
     public void deleteEndereco(UUID id) {
@@ -37,7 +42,6 @@ public class EnderecoService {
         if (enderecoEncontrado.isEmpty()) {
             throw new RuntimeException("Não há endereço cadastrada para o id " + id);
         }
-
         enderecoRepository.deleteById(id);
     }
 

@@ -1,5 +1,7 @@
 package br.com.acabouMony_usuario.dto;
 
+import java.util.UUID;
+
 public record CadastroEnderecoDTO(
         String logradouro,
         int numero,
@@ -7,6 +9,7 @@ public record CadastroEnderecoDTO(
         String bairro,
         String cidade,
         String estado,
-        String cep
+        String cep,
+        UUID idUsuario
 ) {
 }

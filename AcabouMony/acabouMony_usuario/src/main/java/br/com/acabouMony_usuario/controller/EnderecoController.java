@@ -21,8 +21,12 @@ public class EnderecoController {
 
     @PostMapping
     public ResponseEntity<String> cadastrarEndereco(@RequestBody @Valid CadastroEnderecoDTO enderecoDTO) {
-        enderecoService.saveEndereco(enderecoDTO);
-        return ResponseEntity.status(201).body("Cadastro de endereço feito com sucesso!");
+        try {
+            enderecoService.saveEndereco(enderecoDTO);
+            return ResponseEntity.status(201).body("Cadastro de endereço feito com sucesso!");
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")

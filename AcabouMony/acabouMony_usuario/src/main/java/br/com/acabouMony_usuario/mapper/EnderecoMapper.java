@@ -4,11 +4,12 @@ import br.com.acabouMony_usuario.dto.CadastroEnderecoDTO;
 import br.com.acabouMony_usuario.dto.ListagemEnderecoDTO;
 import br.com.acabouMony_usuario.entity.Endereco;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface EnderecoMapper {
 
-    //    @Mapping(source = "numero", target = "numero")
+    @Mapping(source = "numero", target = "numero")
     Endereco toEntity(CadastroEnderecoDTO dto);
 
     ListagemEnderecoDTO toListagemEnderecoDTO(Endereco endereco);
