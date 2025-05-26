@@ -18,11 +18,11 @@ public class TransacaoController {
     @Autowired
     TransacaoService service;
 
-//    @GetMapping
-//    public ResponseEntity<List<ListagemTransacaoDto>> listar(){
-//        return ResponseEntity.status(200).body(service.listar());
-//    }
-//
+    @GetMapping
+    public ResponseEntity<List<ListagemTransacaoDto>> listar(){
+        return ResponseEntity.status(200).body(service.listar());
+    }
+
     @PostMapping
     public ResponseEntity<ListagemTransacaoDto> cadastrar(@RequestBody CadastroTransacaoDto dados){
         return ResponseEntity.status(201).body(service.criar(dados));

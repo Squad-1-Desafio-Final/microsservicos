@@ -48,15 +48,16 @@ public class TransacaoService {
 
         UsuarioResumoDto usuario = restTemplate.getForObject("http://localhost:8084/usuario/"+ dados.usuario(), UsuarioResumoDto.class);
 
-        //        CartaoResumoDto cartao = restTemplate.getForObject("http://localhost:8080/cartao/listar/"+ dados.cartao(), CartaoResumoDto.class);
-        PedidoResumoDto pedido = restTemplate.getForObject("http://localhost:8081/pedido" + dados.pedido(), PedidoResumoDto.class);
+        CartaoResumoDto cartao = restTemplate.getForObject("http://localhost:8080/cartao/"+ dados.cartao(), CartaoResumoDto.class);
+
+        PedidoResumoDto pedido = restTemplate.getForObject("http://localhost:8081/pedido/" + dados.pedido(), PedidoResumoDto.class);
 
         if (usuario == null){
             throw new UsuarioNaoEncontradoException("Usuário não encontrado");
         }
-//        if (cartao == null){
-//            throw new CartaoNaoEncontrado("Cartão não encontrado");
-//        }
+        if (cartao == null){
+            throw new CartaoNaoEncontrado("Cartão não encontrado");
+        }
         if (pedido == null){
             throw new PedidoNaoEncontrado("Pedido não encontrado");
         }
