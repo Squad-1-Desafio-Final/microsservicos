@@ -25,7 +25,13 @@ public class Pedido {
 
     private UUID idUsuario;
 
-    private List<UUID> idProdutos;
+    @ManyToMany
+    @JoinTable(
+            name = "pedido_produto",
+            joinColumns = @JoinColumn(name = "pedido_id"),
+            inverseJoinColumns = @JoinColumn(name = "produto_id")
+    )
+    private List<Produto> produtos;
 
     @PositiveOrZero
     private Double precoTotal;

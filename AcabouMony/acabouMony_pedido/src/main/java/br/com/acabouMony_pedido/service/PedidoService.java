@@ -2,26 +2,24 @@ package br.com.acabouMony_pedido.service;
 
 import br.com.acabouMony_pedido.dto.CadastroPedidoDto;
 import br.com.acabouMony_pedido.dto.ListagemPedidoDto;
-import br.com.acabouMony_pedido.dto.ListagemProdutosDto;
 import br.com.acabouMony_pedido.dto.UsuarioResumoDto;
 import br.com.acabouMony_pedido.entity.Pedido;
-
+import br.com.acabouMony_pedido.entity.Produto;
 import br.com.acabouMony_pedido.exception.PedidoNaoEncontrado;
 import br.com.acabouMony_pedido.exception.PedidoNaoPodeSerEditadoException;
-import br.com.acabouMony_pedido.exception.UsuarioNaoEncontradoException;
 import br.com.acabouMony_pedido.mapper.PedidoCadastrarMapperStruct;
 import br.com.acabouMony_pedido.mapper.PedidoListarMapperStruct;
 import br.com.acabouMony_pedido.repository.PedidoRepository;
+import br.com.acabouMony_pedido.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
-import java.util.*;
-import java.util.function.Function;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +29,11 @@ public class PedidoService {
     PedidoRepository repository;
 
     @Autowired
+    ProdutoRepository produtoRepository;
+
+    @Autowired
     PedidoCadastrarMapperStruct pedidoCadastrarMapperStruct;
+
 
     @Autowired
     PedidoListarMapperStruct pedidoListarMapperStruct;
@@ -56,33 +58,22 @@ public class PedidoService {
     }
 
     public ListagemPedidoDto criar(CadastroPedidoDto dados){
-
-        UsuarioResumoDto usuario = restTemplate.getForObject("http://localhost:8084/usuario/"+ dados.usuario(), UsuarioResumoDto.class);
-
-        ResponseEntity<List<ListagemProdutosDto>> produtos = restTemplate.exchange(
-                "http://localhost:8082/produto/findAllById/" + dados.produtos(), // certifique-se que essa URL está correta
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<ListagemProdutosDto>>() {}
-        );
-
-        //AINDA VERIFICAR SE EXISTE ID DO PRODUTO
+        UsuarioResumoDto usuario = restTemplate.getForObject("http://localhost:8084/usuario/" + dados.usuario(), UsuarioResumoDto.class);
 
         Pedido pedido = pedidoCadastrarMapperStruct.toEntity(dados);
-
         pedido.setDate(new Date(System.currentTimeMillis() + 1000));
         pedido.setCarrinho(true);
         pedido.setIdUsuario(usuario.id());
-        pedido.setIdProdutos(dados.produtos());
 
-        BigDecimal precoTotal = produtos.getBody().stream()
-                .map(ListagemProdutosDto::preco) // Acesse o getter correto para o preço
+        List<Produto> produtos = produtoRepository.findAllById(dados.produtos());
+        pedido.setProdutos(produtos);
+
+        BigDecimal precoTotal = produtos.stream()
+                .map(Produto::getPreco)
                 .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        double precoTotalDouble = precoTotal.doubleValue();
-
-        pedido.setPrecoTotal(10.0);
+        pedido.setPrecoTotal(precoTotal.doubleValue());
 
         Pedido pedidoSalvo = repository.save(pedido);
 
@@ -99,7 +90,6 @@ public class PedidoService {
             throw new PedidoNaoPodeSerEditadoException("O pedido não pode ser editado porque está em uma transação");
         }
 
-        pedidoEncontrado.setIdProdutos(dados.getIdProdutos());
         Pedido pedidoSavo = repository.save(pedidoEncontrado);
 
         return pedidoListarMapperStruct.toPedidoDto(pedidoSavo);

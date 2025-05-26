@@ -1,9 +1,10 @@
-package br.com.acabouMony_produto.controller;
+package br.com.acabouMony_pedido.controller;
 
 
-import br.com.acabouMony_produto.dto.CadastroProdutoDto;
-import br.com.acabouMony_produto.entity.Produto;
-import br.com.acabouMony_produto.service.ProdutoService;
+import br.com.acabouMony_pedido.service.ProdutoService;
+import br.com.acabouMony_pedido.dto.CadastroProdutoDto;
+import br.com.acabouMony_pedido.entity.Produto;
+import br.com.acabouMony_pedido.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
