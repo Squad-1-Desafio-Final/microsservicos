@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface PedidoCadastrarMapperStruct {
 
-// @Mapping(source = "usuario", target = "usuario")
+// @Mapping(source = "produtos", target = "Produtos")
     Pedido toEntity(CadastroPedidoDto dto);
     CadastroPedidoDto toPedidoDto(Pedido entity);
     CadastroPedidoDto toDadosPedidoDto(Pedido entity);

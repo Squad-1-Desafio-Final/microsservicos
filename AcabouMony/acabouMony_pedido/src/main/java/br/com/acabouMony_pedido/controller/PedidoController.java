@@ -1,4 +1,4 @@
-package br.com.acabouMony_pedido_pedido.controller;
+package br.com.acabouMony_pedido.controller;
 
 import br.com.acabouMony_pedido.dto.CadastroPedidoDto;
 import br.com.acabouMony_pedido.dto.ListagemPedidoDto;
@@ -24,11 +24,11 @@ public class PedidoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ListagemPedidoDto> listarPorId(UUID id){
+    public ResponseEntity<ListagemPedidoDto> listarPorId(@PathVariable  UUID id){
         return ResponseEntity.status(200).body(service.listarPorId(id));
     }
 
-    @PostMapping
+    @PostMapping("/criar")
     public ResponseEntity<ListagemPedidoDto> criar(@RequestBody CadastroPedidoDto dados){
         return ResponseEntity.status(201).body(service.criar(dados));
     }

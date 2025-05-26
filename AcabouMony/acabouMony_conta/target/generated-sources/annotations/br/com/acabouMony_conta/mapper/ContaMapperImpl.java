@@ -3,15 +3,14 @@ package br.com.acabouMony_conta.mapper;
 import br.com.acabouMony_conta.dto.CadastroContaDTO;
 import br.com.acabouMony_conta.dto.ListagemContaDTO;
 import br.com.acabouMony_conta.entity.Conta;
-import java.time.ZoneOffset;
 import java.util.Date;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-23T15:36:31-0300",
-    comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.6 (Amazon.com Inc.)"
+    date = "2025-05-26T09:54:16-0300",
+    comments = "version: 1.6.3, compiler: javac, environment: Java 24.0.1 (Oracle Corporation)"
 )
 @Component
 public class ContaMapperImpl implements ContaMapper {
@@ -23,13 +22,6 @@ public class ContaMapperImpl implements ContaMapper {
         }
 
         Conta conta = new Conta();
-
-        conta.setNumero( dto.numero() );
-        conta.setDataVencimento( dto.dataVencimento() );
-        conta.setLimite( dto.limite() );
-        conta.setAgencia( dto.agencia() );
-        conta.setBanco( dto.banco() );
-        conta.setIdUsuario( dto.idUsuario() );
 
         return conta;
     }
@@ -44,13 +36,6 @@ public class ContaMapperImpl implements ContaMapper {
         double limite = 0.0d;
         int agencia = 0;
         int numero = 0;
-
-        if ( conta.getDataVencimento() != null ) {
-            dataVencimento = Date.from( conta.getDataVencimento().atStartOfDay( ZoneOffset.UTC ).toInstant() );
-        }
-        limite = conta.getLimite();
-        agencia = conta.getAgencia();
-        numero = conta.getNumero();
 
         ListagemContaDTO listagemContaDTO = new ListagemContaDTO( dataVencimento, limite, agencia, numero );
 

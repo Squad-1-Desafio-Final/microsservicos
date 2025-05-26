@@ -57,10 +57,10 @@ public class PedidoService {
 
     public ListagemPedidoDto criar(CadastroPedidoDto dados){
 
-        UsuarioResumoDto usuario = restTemplate.getForObject("http://localhost:8080/usuario/"+ dados.usuario(), UsuarioResumoDto.class);
+        UsuarioResumoDto usuario = restTemplate.getForObject("http://localhost:8084/usuario/"+ dados.usuario(), UsuarioResumoDto.class);
 
         ResponseEntity<List<ListagemProdutosDto>> produtos = restTemplate.exchange(
-                "http://localhost:8082/produto/findAllById" + dados.produtos(), // certifique-se que essa URL está correta
+                "http://localhost:8082/produto/findAllById/" + dados.produtos(), // certifique-se que essa URL está correta
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<ListagemProdutosDto>>() {}
@@ -82,7 +82,7 @@ public class PedidoService {
 
         double precoTotalDouble = precoTotal.doubleValue();
 
-        pedido.setPrecoTotal(precoTotalDouble);
+        pedido.setPrecoTotal(10.0);
 
         Pedido pedidoSalvo = repository.save(pedido);
 
