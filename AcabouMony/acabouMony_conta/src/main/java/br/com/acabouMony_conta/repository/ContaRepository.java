@@ -19,4 +19,6 @@ public interface ContaRepository extends JpaRepository<Conta, UUID> {
     void delecaoLogica(UUID id);
 
     boolean existsByNumero(int numero);
+
+    boolean existsByIdUsuario(UUID idUsuario);
 }

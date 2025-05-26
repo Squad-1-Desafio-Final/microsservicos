@@ -33,10 +33,14 @@ public class ContaService {
 
         var requisicaoURL = "http://localhost:8084/usuario/" + dto.idUsuario();
 
-            var usuario = restTemplate.getForObject(requisicaoURL, Object.class);
+        var usuario = restTemplate.getForObject(requisicaoURL, Object.class);
 
         if (contaRepository.existsByNumero(dto.numero())) {
             throw new RuntimeException("Conta com esse número já existe");
+        }
+
+        if (contaRepository.existsByIdUsuario(dto.idUsuario())) {
+            throw new RuntimeException("Conta com esse Usuário já existe");
         }
 
         Conta conta = contaMapper.toEntity(dto);
