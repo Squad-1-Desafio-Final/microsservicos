@@ -7,6 +7,7 @@ import br.com.acabouMony_conta.entity.Conta;
 import br.com.acabouMony_conta.mapper.ContaMapper;
 import br.com.acabouMony_conta.repository.ContaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -29,6 +30,9 @@ public class ContaService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
     public ListagemContaDTO saveConta(CadastroContaDTO dto) {
 
         var requisicaoURL = "http://localhost:8084/usuario/" + dto.idUsuario();
@@ -50,6 +54,7 @@ public class ContaService {
         conta.setIdUsuario(dto.idUsuario());
 
         contaRepository.save(conta);
+        kafkaTemplate.send("conta_topico", "Conta foi aberta! com o número: " + dto.numero());
         return contaMapper.toListagemContaDTO(conta);
     }
 
