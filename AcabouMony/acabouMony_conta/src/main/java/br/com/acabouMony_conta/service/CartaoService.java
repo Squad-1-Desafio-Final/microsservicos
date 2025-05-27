@@ -40,10 +40,7 @@ public class CartaoService {
         var conta = restTemplate.getForObject(requisicaoURL, Object.class);
 
         var cartao = new Cartao();
-        cartao.setSenha(dto.senha());
         cartao.setIdConta(dto.idConta());
-        cartao.setTipo(TipoPagamento.fromString(dto.tipoPagamento()));
-        cartao.setSenha(dto.senha());
         cartao.setAtivo(true);
         cartao.setNumero(gerarNumeroCartao());
         cartao.setCvv(gerarCVV());

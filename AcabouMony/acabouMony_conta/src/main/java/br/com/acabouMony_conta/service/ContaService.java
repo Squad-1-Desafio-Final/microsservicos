@@ -1,6 +1,7 @@
 package br.com.acabouMony_conta.service;
 
 import br.com.acabouMony_conta.dto.AtualizacaoContaDTO;
+import br.com.acabouMony_conta.dto.CadastroCartaoDTO;
 import br.com.acabouMony_conta.dto.CadastroContaDTO;
 import br.com.acabouMony_conta.dto.ListagemContaDTO;
 import br.com.acabouMony_conta.entity.Conta;
@@ -33,6 +34,9 @@ public class ContaService {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
+    @Autowired
+    private CartaoService cartaoService;
+
     public ListagemContaDTO saveConta(CadastroContaDTO dto) {
 
         var requisicaoURL = "http://localhost:8084/usuario/" + dto.idUsuario();
@@ -53,9 +57,13 @@ public class ContaService {
         conta.setAtivo(true);
         conta.setIdUsuario(dto.idUsuario());
 
-        contaRepository.save(conta);
+        var contaSalva =  contaRepository.save(conta);
         kafkaTemplate.send("conta_topico", "Conta foi aberta! com o número: " + dto.numero());
+
+        cartaoService.saveCartao(new CadastroCartaoDTO(contaSalva.getIdConta()));
+
         return contaMapper.toListagemContaDTO(conta);
+
     }
 
     public List<ListagemContaDTO> getAllContas() {

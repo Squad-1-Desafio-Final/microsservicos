@@ -41,6 +41,9 @@ public class PedidoService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private EmailService emailService;
+
     public List<ListagemPedidoDto> listar(){
         List<Pedido> pedidos = repository.findAll();
 
@@ -76,6 +79,8 @@ public class PedidoService {
         pedido.setPrecoTotal(precoTotal.doubleValue());
 
         Pedido pedidoSalvo = repository.save(pedido);
+
+        emailService.enviarConfirmacaoPedido(usuario);
 
         return pedidoListarMapperStruct.toPedidoDto(pedidoSalvo);
 

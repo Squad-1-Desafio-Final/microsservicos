@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record CadastroContaDTO(LocalDate dataVencimento,
+public record       CadastroContaDTO(LocalDate dataVencimento,
                                @NotNull double limite,
                                @NotNull int agencia,
                                @NotNull int numero,
