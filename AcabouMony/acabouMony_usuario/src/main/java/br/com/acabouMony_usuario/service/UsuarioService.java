@@ -7,6 +7,7 @@ import br.com.acabouMony_usuario.mapper.UsuarioMapper;
 import br.com.acabouMony_usuario.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,14 +21,24 @@ public class UsuarioService {
     @Autowired
     private UsuarioMapper usuarioMapper;
 
+    @Autowired
+    private final KafkaTemplate<String, String> kafkaTemplate;
+
+    public UsuarioService(KafkaTemplate<String, String> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
     @Transactional
     public ListagemUsuarioDTO saveUsuario(CadastroUsuarioDTO usuarioDTO) {
         if (usuarioRepository.existsByEmail(usuarioDTO.email())) {
             throw new RuntimeException("Este e-mail já está cadastrado.");
         }
         var usuario = new Usuario(usuarioDTO);
-        usuarioRepository.save(usuario);
-        return usuarioMapper.toListagemUsuarioDTO(usuario);
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+
+        kafkaTemplate.send("usuario-criado","Usuário criado com sucesso");
+
+        return usuarioMapper.toListagemUsuarioDTO(usuarioSalvo);
     }
 
     public void deleteUsuario(UUID id) {
