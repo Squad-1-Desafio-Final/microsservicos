@@ -2,10 +2,13 @@ package br.com.acabouMony_usuario.controller;
 
 import br.com.acabouMony_usuario.dto.*;
 import br.com.acabouMony_usuario.entity.Usuario;
+import br.com.acabouMony_usuario.infra.security.TokenService;
+import br.com.acabouMony_usuario.repository.UsuarioRepository;
 import br.com.acabouMony_usuario.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,10 +21,18 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+
+
+
     @PostMapping
-    public ResponseEntity<String> cadastrarUsuario(@RequestBody @Valid CadastroUsuarioDTO usuarioDTO) {
+    public ResponseEntity<String> cadastrarUsuario(@RequestBody @Valid RegisterDTO dto) {
         try{
-            usuarioService.saveUsuario(usuarioDTO);
+            usuarioService.saveUsuario(dto);
             return ResponseEntity.status(201).body("Cadastro de usuário feito com sucesso!");
         }
         catch (RuntimeException e) {
@@ -98,6 +109,17 @@ public class UsuarioController {
             usuarioService.atualizarTelefone(id, telefoneDTO.telefone());
             return ResponseEntity.ok(usuario);
         } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO dto){
+        try {
+            var usuario = usuarioService.login(dto);
+            return ResponseEntity.ok(usuario);
+        } catch (RuntimeException e){
             return ResponseEntity.notFound().build();
         }
     }

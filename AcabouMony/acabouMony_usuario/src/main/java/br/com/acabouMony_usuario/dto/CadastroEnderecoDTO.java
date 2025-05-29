@@ -10,6 +10,7 @@ public record CadastroEnderecoDTO(
         String cidade,
         String estado,
         String cep,
+
         UUID idUsuario
 ) {
 }

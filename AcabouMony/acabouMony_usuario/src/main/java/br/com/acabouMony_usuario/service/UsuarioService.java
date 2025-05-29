@@ -1,13 +1,17 @@
 package br.com.acabouMony_usuario.service;
 
-import br.com.acabouMony_usuario.dto.CadastroUsuarioDTO;
-import br.com.acabouMony_usuario.dto.ListagemUsuarioDTO;
+import br.com.acabouMony_usuario.dto.*;
 import br.com.acabouMony_usuario.entity.Usuario;
+import br.com.acabouMony_usuario.infra.security.TokenService;
 import br.com.acabouMony_usuario.mapper.UsuarioMapper;
 import br.com.acabouMony_usuario.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,16 +28,22 @@ public class UsuarioService {
     @Autowired
     private final KafkaTemplate<String, String> kafkaTemplate;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private TokenService tokenService;
+
     public UsuarioService(KafkaTemplate<String, String> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
     @Transactional
-    public ListagemUsuarioDTO saveUsuario(CadastroUsuarioDTO usuarioDTO) {
-        if (usuarioRepository.existsByEmail(usuarioDTO.email())) {
+    public ListagemUsuarioDTO saveUsuario(RegisterDTO dto) {
+        if (usuarioRepository.existsByLogin(dto.login())) {
             throw new RuntimeException("Este e-mail já está cadastrado.");
         }
-        var usuario = new Usuario(usuarioDTO);
+        var usuario = new Usuario(dto);
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
 
         kafkaTemplate.send("usuario-criado","Usuário criado com sucesso");
@@ -50,16 +60,32 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+    public String login(AuthenticationDTO dto){
+        var usernamePassword = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
+
+        System.out.println(usernamePassword.getCredentials());
+        System.out.println(usernamePassword.getPrincipal());
+
+        var auth = this.authenticationManager.authenticate(usernamePassword);
+
+        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+        System.out.println(auth.getAuthorities());
+        System.out.println(auth.getCredentials());
+        System.out.println(auth.getPrincipal());
+        System.out.println(auth.getDetails());
+        return token;
+    }
+
     public void atualizarNome(UUID id, String nome) {
         usuarioRepository.atualizarNome(id, nome);
     }
 
     public void atualizarEmail(UUID id, String email) {
-        usuarioRepository.atualizarEmail(id, email);
+        usuarioRepository.atualizarLogin(id, email);
     }
 
     public void atualizarSenha(UUID id, String senha) {
-        usuarioRepository.atualizarSenha(id, senha);
+        usuarioRepository.atualizarpassword(id, senha);
     }
 
     public void atualizarTelefone(UUID id, String telefone) {
