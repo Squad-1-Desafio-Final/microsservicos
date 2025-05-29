@@ -21,13 +21,8 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-
-
     @Autowired
     private UsuarioRepository usuarioRepository;
-
-
-
 
     @PostMapping
     public ResponseEntity<String> cadastrarUsuario(@RequestBody @Valid RegisterDTO dto) {
