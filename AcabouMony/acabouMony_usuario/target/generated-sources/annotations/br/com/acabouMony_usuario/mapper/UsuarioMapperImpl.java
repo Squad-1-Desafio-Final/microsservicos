@@ -4,13 +4,14 @@ import br.com.acabouMony_usuario.dto.CadastroUsuarioDTO;
 import br.com.acabouMony_usuario.dto.ListagemUsuarioDTO;
 import br.com.acabouMony_usuario.entity.Usuario;
 import java.util.Date;
+import java.util.UUID;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-29T10:43:15-0300",
-    comments = "version: 1.6.3, compiler: javac, environment: Java 24 (Oracle Corporation)"
+    date = "2025-05-30T10:22:11-0300",
+    comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.6 (Amazon.com Inc.)"
 )
 @Component
 public class UsuarioMapperImpl implements UsuarioMapper {
@@ -37,17 +38,19 @@ public class UsuarioMapperImpl implements UsuarioMapper {
             return null;
         }
 
+        UUID id = null;
         String nome = null;
         String telefone = null;
         Date dtNasc = null;
 
+        id = usuario.getId();
         nome = usuario.getNome();
         telefone = usuario.getTelefone();
         dtNasc = usuario.getDtNasc();
 
         String email = null;
 
-        ListagemUsuarioDTO listagemUsuarioDTO = new ListagemUsuarioDTO( nome, email, telefone, dtNasc );
+        ListagemUsuarioDTO listagemUsuarioDTO = new ListagemUsuarioDTO( id, nome, email, telefone, dtNasc );
 
         return listagemUsuarioDTO;
     }
