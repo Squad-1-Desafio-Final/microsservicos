@@ -25,7 +25,7 @@ public class EnderecoController {
             enderecoService.saveEndereco(enderecoDTO);
             return ResponseEntity.status(201).body("Cadastro de endereço feito com sucesso!");
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok().body(e.getMessage());
         }
     }
 

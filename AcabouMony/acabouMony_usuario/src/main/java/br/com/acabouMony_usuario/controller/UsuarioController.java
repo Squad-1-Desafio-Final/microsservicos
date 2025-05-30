@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -25,13 +27,26 @@ public class UsuarioController {
     private UsuarioRepository usuarioRepository;
 
     @PostMapping
-    public ResponseEntity<String> cadastrarUsuario(@RequestBody @Valid RegisterDTO dto) {
-        try{
-            usuarioService.saveUsuario(dto);
-            return ResponseEntity.status(201).body("Cadastro de usuário feito com sucesso!");
+    public ResponseEntity<?> cadastrarUsuario(@RequestBody @Valid RegisterDTO dto) {
+        try {
+            // Salva e retorna o usuário criado como DTO
+            ListagemUsuarioDTO usuarioSalvo = usuarioService.saveUsuario(dto);
+            return ResponseEntity.status(201).body(usuarioSalvo);
+        } catch (RuntimeException e) {
+            // Retorna mensagem de erro em JSON
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Ocorreu um erro ao cadastrar usuário! Já existe um cadastro com esse email!");
+            return ResponseEntity.status(409).body(error);
         }
-        catch (RuntimeException e) {
-            return ResponseEntity.status(409).body("Ocorreu um erro ao cadastrar usuário! Já existe um cadastro com esse email!");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO dto){
+        try {
+            var usuario = usuarioService.login(dto);
+            return ResponseEntity.ok(usuario);
+        } catch (RuntimeException e){
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -107,17 +122,5 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
-    @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO dto){
-        try {
-            var usuario = usuarioService.login(dto);
-            return ResponseEntity.ok(usuario);
-        } catch (RuntimeException e){
-            return ResponseEntity.notFound().build();
-        }
-    }
-
 
 }

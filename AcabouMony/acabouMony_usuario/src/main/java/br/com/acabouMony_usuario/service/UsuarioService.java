@@ -51,6 +51,16 @@ public class UsuarioService {
         return usuarioMapper.toListagemUsuarioDTO(usuarioSalvo);
     }
 
+    public String login(AuthenticationDTO dto){
+        var usernamePassword = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
+
+        var auth = this.authenticationManager.authenticate(usernamePassword);
+
+        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+
+        return token;
+    }
+
     public void deleteUsuario(UUID id) {
         var usuarioEncontrado = usuarioRepository.findById(id);
 
@@ -58,22 +68,6 @@ public class UsuarioService {
             throw new RuntimeException("Não há usuário cadastrado para o id " + id);
         }
         usuarioRepository.deleteById(id);
-    }
-
-    public String login(AuthenticationDTO dto){
-        var usernamePassword = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
-
-        System.out.println(usernamePassword.getCredentials());
-        System.out.println(usernamePassword.getPrincipal());
-
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-
-        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
-        System.out.println(auth.getAuthorities());
-        System.out.println(auth.getCredentials());
-        System.out.println(auth.getPrincipal());
-        System.out.println(auth.getDetails());
-        return token;
     }
 
     public void atualizarNome(UUID id, String nome) {
