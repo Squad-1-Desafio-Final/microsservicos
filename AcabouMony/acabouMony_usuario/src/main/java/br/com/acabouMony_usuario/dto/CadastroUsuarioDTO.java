@@ -7,7 +7,7 @@ import java.util.Date;
 public record CadastroUsuarioDTO(
         @NotBlank
         String nome,
-        String email,
+        String login,
         String senha,
         String cpf,
         String telefone,

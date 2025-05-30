@@ -1,70 +1,62 @@
 from locust import HttpUser, task, between
 import uuid
-
-# Variável global para armazenar o último idUsuario e o login
-ultimo_id_usuario = None
-ultimo_login = None  # vamos precisar do login para o teste de login
-
+import random
 
 class UsuarioApiUser(HttpUser):
     wait_time = between(1, 2)
 
-    @task(1)
-    def cadastrar_usuario(self):
-        global ultimo_id_usuario, ultimo_login
+    # Guardar credenciais do último usuário criado
+    ultimo_email = None
+    ultima_senha = None
 
-        url = "/usuario"
-        login_gerado = f"joao.silva{uuid.uuid4()}"
-        payload = {
+    @task(1)
+    def cadastrar_usuario_e_endereco(self):
+        url_usuario = "/usuario"
+
+        random_str = str(uuid.uuid4())
+        dominios = ["teste.com", "exemplo.com", "mail.com"]
+        dominio = random.choice(dominios)
+        email_aleatorio = f"joao.silva.{random_str}@{dominio}"
+
+        cpf_aleatorio = ''.join(str(random.randint(0, 9)) for _ in range(11))
+
+        dt_nasc = "1990-01-01"
+        senha = "senha123"
+
+        payload_usuario = {
             "nome": "João Silva",
-            "login": login_gerado,
-            "senha": "senha123",
-            "cpf": "123.456.789-00",
+            "login": email_aleatorio,
+            "senha": senha,
+            "cpf": cpf_aleatorio,
             "telefone": "+5511999999999",
-            "dtNasc": "1990-01-01",
+            "dtNasc": dt_nasc,
             "role": "admin"
         }
 
-        response = self.client.post(url, json=payload)
-        print(f"POST {url} - Status: {response.status_code}")
-        print(f"Resposta bruta: {response.text}")
+        response_usuario = self.client.post(url_usuario, json=payload_usuario)
+        print(f"POST {url_usuario} - Status: {response_usuario.status_code}")
+        print(f"Payload usuário: {payload_usuario}")
+        print(f"Resposta usuário: {response_usuario.text}")
 
-        if response.status_code in [200, 201]:
+        if response_usuario.status_code in [200, 201]:
             try:
-                data = response.json()
-                if isinstance(data, dict) and "id" in data:
-                    ultimo_id_usuario = data["id"]
-                    ultimo_login = login_gerado
-                    print(f"Usuário cadastrado! ID: {ultimo_id_usuario} | Login: {ultimo_login}")
+                data = response_usuario.json()
+                if "id" in data:
+                    self.ultimo_email = email_aleatorio
+                    self.ultima_senha = senha
+                    print(f"Usuário cadastrado com sucesso! ID: {data['id']}")
                 else:
-                    print("Resposta inesperada ao cadastrar usuário:", data)
-            except ValueError:
-                print("Resposta não é JSON válido.")
+                    print("Resposta não contém ID do usuário.")
+                    return
+            except Exception as e:
+                print(f"Erro ao parsear resposta JSON do usuário: {e}")
+                return
         else:
-            try:
-                error_data = response.json()
-                if isinstance(error_data, dict) and "error" in error_data:
-                    print(f"Erro ao cadastrar usuário: {error_data['error']}")
-                else:
-                    print(f"Erro desconhecido: {error_data}")
-            except ValueError:
-                print(f"Erro ao cadastrar usuário: {response.text}")
-
-
-class EnderecoApiUser(HttpUser):
-    wait_time = between(1, 2)
-
-    @task(2)
-    def cadastrar_endereco(self):
-        global ultimo_id_usuario
-
-        url = "/endereco"
-
-        if not ultimo_id_usuario:
-            print("Nenhum usuário cadastrado ainda.")
+            print("Falha ao cadastrar usuário, pulando criação de endereço.")
             return
 
-        payload = {
+        url_endereco = "/endereco"
+        payload_endereco = {
             "logradouro": "Rua das Flores",
             "numero": 123,
             "complemento": "Apto 101",
@@ -72,39 +64,34 @@ class EnderecoApiUser(HttpUser):
             "cidade": "São Paulo",
             "estado": "SP",
             "cep": "12345-678",
-            "idUsuario": ultimo_id_usuario
+            "idUsuario": data["id"]
         }
 
-        response = self.client.post(url, json=payload)
-        print(f"POST {url} - Status: {response.status_code}")
-        print(f"Resposta: {response.text}")
+        response_endereco = self.client.post(url_endereco, json=payload_endereco)
+        print(f"POST {url_endereco} - Status: {response_endereco.status_code}")
+        print(f"Payload endereço: {payload_endereco}")
+        print(f"Resposta endereço: {response_endereco.text}")
 
-class LoginApiUser(HttpUser):
-    wait_time = between(1, 2)
-
-    @task(3)
+    @task(2)
     def login(self):
-        global ultimo_login
-
-        url = "/login"
-
-        if not ultimo_login:
-            print("Nenhum usuário com login válido cadastrado ainda.")
+        url_login = "/usuario/login"
+        if not self.ultimo_email or not self.ultima_senha:
+            print("Nenhum usuário criado para login, pulando task de login.")
             return
 
-        payload = {
-            "login": ultimo_login,
-            "password": "senha123"  # mesma senha usada no cadastro
+        payload_login = {
+            "login": self.ultimo_email,
+            "password": self.ultima_senha
         }
 
-        response = self.client.post(url, json=payload)
-        print(f"POST {url} - Status: {response.status_code}")
+        response_login = self.client.post(url_login, json=payload_login)
+        print(f"POST {url_login} - Status: {response_login.status_code}")
+        print(f"Payload login: {payload_login}")
+        print(f"Resposta login: {response_login.text}")
 
-        if response.status_code == 200:
-            print(f"Login bem-sucedido! Token: {response.text}")
-        elif response.status_code == 404:
-            print("Usuário não encontrado.")
-        elif response.status_code == 401:
-            print("Credenciais inválidas.")
+        if response_login.status_code == 200:
+            print("Login efetuado com sucesso.")
+        elif response_login.status_code == 404:
+            print("Login falhou: usuário não encontrado.")
         else:
-            print(f"Erro ao fazer login: {response.status_code} - {response.text}")
+            print(f"Resposta inesperada: {response_login.status_code}")
