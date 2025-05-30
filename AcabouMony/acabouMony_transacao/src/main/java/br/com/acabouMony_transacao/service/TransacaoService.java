@@ -29,6 +29,9 @@ public class TransacaoService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private EmailServiceTransacao emailServiceTransacao;
+
 //    @Autowired
 //    UsuarioRepository usuarioRepository;
 
@@ -69,6 +72,8 @@ public class TransacaoService {
         transacao.setIdDestinatario(dados.usuario());
         transacao.setTipo(dados.tipo());
         Transacao transacaoSalva = repository.save(transacao);
+
+        emailServiceTransacao.enviarConfirmacaoTransacao(usuario);
 
         return transacaoListarMapper.toTransacaoDto(transacaoSalva);
 
