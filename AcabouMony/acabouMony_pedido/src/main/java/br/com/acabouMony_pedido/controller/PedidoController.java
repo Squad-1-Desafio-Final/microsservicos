@@ -1,6 +1,7 @@
 package br.com.acabouMony_pedido.controller;
 
 import br.com.acabouMony_pedido.dto.CadastroPedidoDto;
+import br.com.acabouMony_pedido.dto.ConcluirTransacaDto;
 import br.com.acabouMony_pedido.dto.ListagemPedidoDto;
 import br.com.acabouMony_pedido.entity.Pedido;
 import br.com.acabouMony_pedido.service.PedidoService;
@@ -33,9 +34,9 @@ public class PedidoController {
         return ResponseEntity.status(201).body(service.criar(dados));
     }
 
-    @PatchMapping("concluir-transacao/{id}")
-    public ResponseEntity<ListagemPedidoDto> concluirTransacao(@PathVariable  UUID id){
-        return ResponseEntity.status(200).body(service.concluirTransacao(id));
+    @PatchMapping("concluir-transacao")
+    public ResponseEntity<ListagemPedidoDto> concluirTransacao(@RequestBody ConcluirTransacaDto dados){
+        return ResponseEntity.status(200).body(service.concluirTransacao(dados));
     }
 
     @PatchMapping("/editar/{id}")

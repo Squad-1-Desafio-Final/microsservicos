@@ -20,4 +20,6 @@ public interface CartaoRepository extends JpaRepository<Cartao, UUID> {
     @Transactional
     @Query("UPDATE Cartao c SET c.ativo = false WHERE c.id = :id")
     void delecaoLogica(UUID id);
+
+    Cartao findByIdConta(UUID id);
 }

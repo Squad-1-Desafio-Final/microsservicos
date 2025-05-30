@@ -3,6 +3,7 @@ package br.com.acabouMony_conta.controller;
 import br.com.acabouMony_conta.dto.AtualizacaoContaDTO;
 import br.com.acabouMony_conta.dto.CadastroContaDTO;
 import br.com.acabouMony_conta.dto.ListagemContaDTO;
+import br.com.acabouMony_conta.entity.Conta;
 import br.com.acabouMony_conta.service.ContaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,13 @@ public class ContaController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(204).build();
         }
+    }
+
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<Conta> getContaByUserId(@PathVariable UUID id) {
+
+        return ResponseEntity.status(200).body(contaService.getContaByUserId(id));
+
     }
 
     @GetMapping("/{id}")

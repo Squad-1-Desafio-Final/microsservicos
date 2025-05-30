@@ -1,5 +1,6 @@
 package br.com.acabouMony_pedido.entity;
 
+import br.com.acabouMony_pedido.tipos.TipoPagamento;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -35,6 +36,9 @@ public class Pedido {
 
     @PositiveOrZero
     private Double precoTotal;
+
+    @Enumerated(EnumType.STRING)
+    private TipoPagamento tipo;
 
     @FutureOrPresent
     private Date date;

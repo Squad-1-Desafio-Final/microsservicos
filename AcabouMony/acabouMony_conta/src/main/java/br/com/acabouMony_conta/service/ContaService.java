@@ -121,4 +121,15 @@ public class ContaService {
 
         contaRepository.delecaoLogica(id);
     }
+
+    public Conta getContaByUserId(UUID id) {
+
+        Conta conta = contaRepository.getContaByUserId(id);
+
+        if(conta == null){
+            throw new RuntimeException("Conta não existe com esse usuário id");
+        }
+
+        return conta;
+    }
 }

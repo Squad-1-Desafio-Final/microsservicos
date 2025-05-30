@@ -1,12 +1,12 @@
 package br.com.acabouMony_pedido.service;
 
-import br.com.acabouMony_pedido.dto.CadastroPedidoDto;
-import br.com.acabouMony_pedido.dto.ListagemPedidoDto;
-import br.com.acabouMony_pedido.dto.UsuarioResumoDto;
+import br.com.acabouMony_pedido.dto.*;
 import br.com.acabouMony_pedido.entity.Pedido;
 import br.com.acabouMony_pedido.entity.Produto;
+import br.com.acabouMony_pedido.exception.CreditoInsuficienteException;
 import br.com.acabouMony_pedido.exception.PedidoNaoEncontrado;
 import br.com.acabouMony_pedido.exception.PedidoNaoPodeSerEditadoException;
+import br.com.acabouMony_pedido.exception.TransacaoRecusadaTipo;
 import br.com.acabouMony_pedido.mapper.PedidoCadastrarMapperStruct;
 import br.com.acabouMony_pedido.mapper.PedidoListarMapperStruct;
 import br.com.acabouMony_pedido.repository.PedidoRepository;
@@ -80,8 +80,6 @@ public class PedidoService {
 
         Pedido pedidoSalvo = repository.save(pedido);
 
-        //emailService.enviarConfirmacaoPedido(usuario);
-
         return pedidoListarMapperStruct.toPedidoDto(pedidoSalvo);
 
     }
@@ -101,13 +99,37 @@ public class PedidoService {
 
     }
 
-    public ListagemPedidoDto concluirTransacao(UUID id){
+    public ListagemPedidoDto concluirTransacao(ConcluirTransacaDto dto){
 
-        Pedido pedidoEncontrado = repository.findById(id)
+        Pedido pedidoEncontrado = repository.findById(dto.idPedido())
                 .orElseThrow(() -> new PedidoNaoPodeSerEditadoException("Pedido não encontrado"));
 
-        pedidoEncontrado.setCarrinho(false);
+        ContaDto conta = restTemplate.getForObject("http://localhost:8080/conta/usuario/" + dto.idUsuario(), ContaDto.class);
 
+        CartaoDto cartao = restTemplate.getForObject("http://localhost:8080/cartao/conta/" + conta.idConta(), CartaoDto.class);
+
+        //Verificando tipo de pagamento pedido e cartão
+        if (!pedidoEncontrado.getTipo().equals(cartao.tipo())){
+            throw new TransacaoRecusadaTipo("Transação não pode ser confirmada, cartão não é do tipo " + pedidoEncontrado.getTipo());
+        }
+
+        //logica de credito
+        if (pedidoEncontrado.getTipo().equals("CREDITO")){
+            Double disponivel = conta.limite() - conta.credito();
+
+            if (disponivel <= pedidoEncontrado.getPrecoTotal()){
+                throw new CreditoInsuficienteException("O valor disponivel de crédito é insuficiente");
+            }
+
+        }
+
+
+
+
+
+        //Tirar     @Enumerated(EnumType.STRING)qtd
+
+        pedidoEncontrado.setCarrinho(false);
         Pedido pedidoSavo = repository.save(pedidoEncontrado);
 
         return pedidoListarMapperStruct.toPedidoDto(pedidoSavo);
