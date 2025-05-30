@@ -40,6 +40,15 @@ public class UsuarioController {
         }
     }
 
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO dto){
+        try {
+            var usuario = usuarioService.login(dto);
+            return ResponseEntity.ok(usuario);
+        } catch (RuntimeException e){
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUsuario(@PathVariable UUID id) {
@@ -113,17 +122,5 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
-    @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO dto){
-        try {
-            var usuario = usuarioService.login(dto);
-            return ResponseEntity.ok(usuario);
-        } catch (RuntimeException e){
-            return ResponseEntity.notFound().build();
-        }
-    }
-
 
 }
