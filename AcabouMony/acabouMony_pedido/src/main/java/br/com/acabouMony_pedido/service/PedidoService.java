@@ -80,7 +80,7 @@ public class PedidoService {
 
         Pedido pedidoSalvo = repository.save(pedido);
 
-        emailService.enviarConfirmacaoPedido(usuario);
+        //emailService.enviarConfirmacaoPedido(usuario);
 
         return pedidoListarMapperStruct.toPedidoDto(pedidoSalvo);
 
