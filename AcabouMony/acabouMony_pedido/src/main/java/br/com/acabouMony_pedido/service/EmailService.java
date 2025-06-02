@@ -14,13 +14,12 @@ public class EmailService {
 
     public void enviarConfirmacaoPedido(UsuarioResumoDto dto) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(dto.email());
-        message.setFrom("eduardomiyasaki23@gmail.com\n");
+        message.setTo(dto.login());
         message.setSubject("Confirmação de Pedido");
         message.setText("Olá " + dto.nome() + ",\n\nSeu pedido foi realizado com sucesso!");
 
         mailSender.send(message);
-        System.out.println("E-mail enviado com sucesso para " + dto.email());
+        System.out.println("E-mail enviado com sucesso para " + dto.login());
     }
 }
 

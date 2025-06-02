@@ -132,4 +132,26 @@ public class ContaService {
 
         return conta;
     }
+
+    public void adicionarCredito(UUID idConta, Double valor) {
+
+        Conta contEncontrada = contaRepository.findById(idConta)
+                .orElseThrow(() -> new IllegalArgumentException("Conta com ID " + idConta + " não foi encontrada"));
+
+        contEncontrada.setIdConta(idConta);
+        contEncontrada.setCredito(contEncontrada.getCredito() + valor);
+
+        contaRepository.save(contEncontrada);
+
+    }
+
+    public void adicionarDebito(UUID idConta, Double valor) {
+        Conta contEncontrada = contaRepository.findById(idConta)
+                .orElseThrow(() -> new IllegalArgumentException("Conta com ID " + idConta + " não foi encontrada"));
+
+        contEncontrada.setIdConta(idConta);
+        contEncontrada.setSaldo(contEncontrada.getSaldo() - valor);
+
+        contaRepository.save(contEncontrada);
+    }
 }
