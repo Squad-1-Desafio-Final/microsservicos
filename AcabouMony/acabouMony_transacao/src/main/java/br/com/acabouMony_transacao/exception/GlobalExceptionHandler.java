@@ -20,5 +20,12 @@ public class GlobalExceptionHandler {
                 .body(e.getMessage());
     }
 
+    @ExceptionHandler(br.com.acabouMony_transacao.exception.PedidoComCarrinhoAtivoException.class)
+    public ResponseEntity<String> handlrePedidoComCarrinho(br.com.acabouMony_transacao.exception.PedidoComCarrinhoAtivoException e){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
+    }
+
 
 }
