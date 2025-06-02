@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-30T14:40:26-0300",
+    date = "2025-06-02T10:43:13-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.6 (Amazon.com Inc.)"
 )
 @Component
@@ -39,19 +39,19 @@ public class UsuarioMapperImpl implements UsuarioMapper {
             return null;
         }
 
+        String login = null;
         UUID id = null;
         String nome = null;
         String telefone = null;
         Date dtNasc = null;
 
+        login = usuario.getLogin();
         id = usuario.getId();
         nome = usuario.getNome();
         telefone = usuario.getTelefone();
         dtNasc = usuario.getDtNasc();
 
-        String email = null;
-
-        ListagemUsuarioDTO listagemUsuarioDTO = new ListagemUsuarioDTO( id, nome, email, telefone, dtNasc );
+        ListagemUsuarioDTO listagemUsuarioDTO = new ListagemUsuarioDTO( id, nome, login, telefone, dtNasc );
 
         return listagemUsuarioDTO;
     }

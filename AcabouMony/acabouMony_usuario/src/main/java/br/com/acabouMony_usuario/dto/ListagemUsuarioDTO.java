@@ -8,7 +8,7 @@ import java.util.UUID;
 public record ListagemUsuarioDTO(
         UUID id,
         String nome,
-        String email,
+        String login,
         String telefone,
         Date dtNasc
 ) {
@@ -16,7 +16,7 @@ public record ListagemUsuarioDTO(
         this(
                 usuario.getId(),
                 usuario.getNome(),
-                usuario.getUsername(), // ou getLogin() se preferir
+                usuario.getLogin(), // ou getLogin() se preferir
                 usuario.getTelefone(),
                 usuario.getDtNasc()
         );

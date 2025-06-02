@@ -10,5 +10,6 @@ import org.mapstruct.Mapping;
 public interface UsuarioMapper {
         @Mapping(source = "nome", target = "nome")
     Usuario toEntity(CadastroUsuarioDTO dto);
+       @Mapping(source = "login", target = "login")
     ListagemUsuarioDTO toListagemUsuarioDTO(Usuario usuario);
 }

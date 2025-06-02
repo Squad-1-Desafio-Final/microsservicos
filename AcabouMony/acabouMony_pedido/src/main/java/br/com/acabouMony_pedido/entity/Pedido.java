@@ -40,7 +40,6 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     private TipoPagamento tipo;
 
-    @FutureOrPresent
     private Date date;
 
     private Boolean carrinho;
