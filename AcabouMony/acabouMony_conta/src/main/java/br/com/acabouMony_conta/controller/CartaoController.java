@@ -2,6 +2,7 @@ package br.com.acabouMony_conta.controller;
 
 import br.com.acabouMony_conta.dto.CadastroCartaoDTO;
 import br.com.acabouMony_conta.dto.ListagemCartaoDTO;
+import br.com.acabouMony_conta.entity.Cartao;
 import br.com.acabouMony_conta.service.CartaoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,16 @@ public class CartaoController {
     public ResponseEntity<ListagemCartaoDTO> getOneCartao(@PathVariable UUID id) {
         try {
             var cartao = cartaoService.getOneCartao(id);
+            return ResponseEntity.status(200).body(cartao);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).build();
+        }
+    }
+
+    @GetMapping("conta/{id}")
+    public ResponseEntity<Cartao> getOneCartaoByContaId(@PathVariable UUID id) {
+        try {
+            var cartao = cartaoService.getOneCartaoByContaId(id);
             return ResponseEntity.status(200).body(cartao);
         } catch (RuntimeException e) {
             return ResponseEntity.status(404).build();

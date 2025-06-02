@@ -21,4 +21,9 @@ public interface ContaRepository extends JpaRepository<Conta, UUID> {
     boolean existsByNumero(int numero);
 
     boolean existsByIdUsuario(UUID idUsuario);
+
+    @Query("SELECT c FROM Conta c WHERE c.idUsuario = :id")
+    Conta getContaByUserId(UUID id);
+
+    Conta findByIdUsuario(UUID id);
 }

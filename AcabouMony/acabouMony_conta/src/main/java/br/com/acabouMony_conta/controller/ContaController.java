@@ -3,6 +3,7 @@ package br.com.acabouMony_conta.controller;
 import br.com.acabouMony_conta.dto.AtualizacaoContaDTO;
 import br.com.acabouMony_conta.dto.CadastroContaDTO;
 import br.com.acabouMony_conta.dto.ListagemContaDTO;
+import br.com.acabouMony_conta.entity.Conta;
 import br.com.acabouMony_conta.service.ContaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,13 @@ public class ContaController {
         }
     }
 
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<Conta> getContaByUserId(@PathVariable UUID id) {
+
+        return ResponseEntity.status(200).body(contaService.getContaByUserId(id));
+
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ListagemContaDTO> getOneConta(@PathVariable UUID id) {
         try {
@@ -69,10 +77,20 @@ public class ContaController {
         }
     }
 
-    @PatchMapping("/delecao/{id}")
-    public ResponseEntity<Void> deleteLogicaConta(@PathVariable UUID id) {
+    @GetMapping("/adicionar-credito/{idConta}/{valor}")
+    public ResponseEntity<Void> adicionarCredito(@PathVariable UUID idConta, @PathVariable Double valor) {
         try {
-            contaService.deleteLogicaConta(id);
+            contaService.adicionarCredito(idConta, valor);
+            return ResponseEntity.status(200).build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).build();
+        }
+    }
+
+    @PatchMapping("adicionar-debito/{idConta}/{valor}")
+    public ResponseEntity<Void> adicionarDebito(@PathVariable UUID idConta, @PathVariable Double valor) {
+        try {
+            contaService.adicionarDebito(idConta, valor);
             return ResponseEntity.status(200).build();
         } catch (RuntimeException e) {
             return ResponseEntity.status(404).build();

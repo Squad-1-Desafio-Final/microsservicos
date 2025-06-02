@@ -8,7 +8,7 @@ public record CadastroUsuarioDTO(
         @NotBlank
         String nome,
         String login,
-        String senha,
+        String password,
         String cpf,
         String telefone,
         Date dtNasc

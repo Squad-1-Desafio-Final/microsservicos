@@ -120,4 +120,10 @@ public class CartaoService {
     public static int gerarCVV() {
         return 100 + random.nextInt(900);
     }
+
+    public Cartao getOneCartaoByContaId(UUID id) {
+
+        return cartaoRepository.findByIdConta(id);
+
+    }
 }

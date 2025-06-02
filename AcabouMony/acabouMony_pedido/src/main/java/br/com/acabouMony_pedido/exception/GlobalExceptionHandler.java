@@ -28,6 +28,20 @@ public class GlobalExceptionHandler {
                 .body(e.getMessage());
     }
 
+    @ExceptionHandler(EstoqueInsuficienteException.class)
+    public ResponseEntity<String> handleEstoqueInsuficiente(EstoqueInsuficienteException e){
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(e.getMessage());
+    }
+
+    @ExceptionHandler(TransacaoRecusadaTipo.class)
+    public ResponseEntity<String> handleCartaoPedidoTipoConflitos(TransacaoRecusadaTipo e){
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(e.getMessage());
+    }
+
 
 
 

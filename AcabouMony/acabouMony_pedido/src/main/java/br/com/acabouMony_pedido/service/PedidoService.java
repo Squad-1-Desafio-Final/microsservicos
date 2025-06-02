@@ -1,18 +1,25 @@
 package br.com.acabouMony_pedido.service;
 
-import br.com.acabouMony_pedido.dto.CadastroPedidoDto;
-import br.com.acabouMony_pedido.dto.ListagemPedidoDto;
-import br.com.acabouMony_pedido.dto.UsuarioResumoDto;
+import br.com.acabouMony_pedido.dto.*;
 import br.com.acabouMony_pedido.entity.Pedido;
 import br.com.acabouMony_pedido.entity.Produto;
-import br.com.acabouMony_pedido.exception.PedidoNaoEncontrado;
-import br.com.acabouMony_pedido.exception.PedidoNaoPodeSerEditadoException;
+import br.com.acabouMony_pedido.exception.*;
 import br.com.acabouMony_pedido.mapper.PedidoCadastrarMapperStruct;
 import br.com.acabouMony_pedido.mapper.PedidoListarMapperStruct;
 import br.com.acabouMony_pedido.repository.PedidoRepository;
 import br.com.acabouMony_pedido.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpHeaders;
+
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -80,8 +87,6 @@ public class PedidoService {
 
         Pedido pedidoSalvo = repository.save(pedido);
 
-        //emailService.enviarConfirmacaoPedido(usuario);
-
         return pedidoListarMapperStruct.toPedidoDto(pedidoSalvo);
 
     }
@@ -101,15 +106,89 @@ public class PedidoService {
 
     }
 
-    public ListagemPedidoDto concluirTransacao(UUID id){
+    public ListagemPedidoDto concluirTransacao(ConcluirTransacaDto dto){
 
-        Pedido pedidoEncontrado = repository.findById(id)
+        Pedido pedidoEncontrado = repository.findById(dto.idPedido())
                 .orElseThrow(() -> new PedidoNaoPodeSerEditadoException("Pedido não encontrado"));
 
+        UsuarioResumoDto usuarioResumoDto = restTemplate.getForObject("http://localhost:8084/usuario/" + dto.idUsuario(), UsuarioResumoDto.class);
+
+        ContaDto conta = restTemplate.getForObject("http://localhost:8080/conta/usuario/" + dto.idUsuario(), ContaDto.class);
+
+        CartaoDto cartao = restTemplate.getForObject("http://localhost:8080/cartao/conta/" + conta.idConta(), CartaoDto.class);
+
+        //Verificando tipo de pagamento pedido e cartão
+        String tipoCartao = cartao.tipo();
+        String tipoPedido = pedidoEncontrado.getTipo().toString();
+
+        if (!tipoPedido.equalsIgnoreCase(tipoCartao)){
+            throw new TransacaoRecusadaTipo("Transação não pode ser confirmada, cartão não é do tipo " + pedidoEncontrado.getTipo());
+        }
+
+        //logica de credito
+        if (tipoPedido.equalsIgnoreCase("CREDITO") && tipoCartao.equalsIgnoreCase("CREDITO")){
+            Double disponivel = conta.limite() - conta.credito();
+
+            if (disponivel <= pedidoEncontrado.getPrecoTotal()){
+                throw new CreditoInsuficienteException("O valor disponivel de crédito é insuficiente");
+            }
+
+          //restTemplate.exchange("http://localhost:8080/conta/adicionar-credito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal());
+
+            restTemplate.getForObject("http://localhost:8080/conta/adicionar-credito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal(), Void.class);
+
+
+
+
+
+        }else{
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+            restTemplate.exchange(
+                    "http://localhost:8080/conta/valor-debito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal(),
+                    HttpMethod.PATCH,
+                    requestEntity,
+                    Void.class
+            );
+
+
+            //restTemplate.getForObject("http://localhost:8080/conta/valor-debito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal(), ContaDto.class);
+
+        }
+        for (Produto produto : pedidoEncontrado.getProdutos()) {
+            Produto produtoBanco = produtoRepository.findByIdProduto(produto.getIdProduto())
+                    .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+            if (produtoBanco.getQuantidade() < 1) {
+                throw new EstoqueInsuficienteException("Produto " + produtoBanco.getNome() + " está fora de estoque.");
+            }
+
+            // Reduz o estoque (caso queira já alterar o produto)
+            produtoBanco.setQuantidade(produtoBanco.getQuantidade() - 1);
+            produtoRepository.save(produtoBanco);
+        }
+
+
         pedidoEncontrado.setCarrinho(false);
-
         Pedido pedidoSavo = repository.save(pedidoEncontrado);
+        assert usuarioResumoDto != null;
 
+        System.out.println("""
+                
+                ---------
+                
+                
+                
+                """ +usuarioResumoDto.login() + """
+                
+                ---------------------
+                """);
+
+        emailService.enviarConfirmacaoPedido(usuarioResumoDto);
         return pedidoListarMapperStruct.toPedidoDto(pedidoSavo);
     }
 

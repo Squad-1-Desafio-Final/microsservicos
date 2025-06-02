@@ -121,4 +121,37 @@ public class ContaService {
 
         contaRepository.delecaoLogica(id);
     }
+
+    public Conta getContaByUserId(UUID id) {
+
+        Conta conta = contaRepository.getContaByUserId(id);
+
+        if(conta == null){
+            throw new RuntimeException("Conta não existe com esse usuário id");
+        }
+
+        return conta;
+    }
+
+    public void adicionarCredito(UUID idConta, Double valor) {
+
+        Conta contEncontrada = contaRepository.findById(idConta)
+                .orElseThrow(() -> new IllegalArgumentException("Conta com ID " + idConta + " não foi encontrada"));
+
+        contEncontrada.setIdConta(idConta);
+        contEncontrada.setCredito(contEncontrada.getCredito() + valor);
+
+        contaRepository.save(contEncontrada);
+
+    }
+
+    public void adicionarDebito(UUID idConta, Double valor) {
+        Conta contEncontrada = contaRepository.findById(idConta)
+                .orElseThrow(() -> new IllegalArgumentException("Conta com ID " + idConta + " não foi encontrada"));
+
+        contEncontrada.setIdConta(idConta);
+        contEncontrada.setSaldo(contEncontrada.getSaldo() - valor);
+
+        contaRepository.save(contEncontrada);
+    }
 }
