@@ -26,7 +26,7 @@ class UsuarioApiUser(HttpUser):
         payload_usuario = {
             "nome": "João Silva",
             "login": email_aleatorio,
-            "senha": senha,
+            "password": senha,
             "cpf": cpf_aleatorio,
             "telefone": "+5511999999999",
             "dtNasc": dt_nasc,

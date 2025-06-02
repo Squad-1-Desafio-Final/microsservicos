@@ -43,7 +43,7 @@ public class Usuario implements UserDetails {
 
     public Usuario(RegisterDTO dto) {
         this.role = UserRole.getRole(dto.role());
-        this.password = new BCryptPasswordEncoder().encode(dto.senha());
+        this.password = new BCryptPasswordEncoder().encode(dto.password());
         this.login = dto.login();
         this.cpf = dto.cpf();
         this.dtNasc = dto.dtNasc();
