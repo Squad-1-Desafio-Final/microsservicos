@@ -129,7 +129,7 @@ public class PedidoService {
         if (tipoPedido.equalsIgnoreCase("CREDITO") && tipoCartao.equalsIgnoreCase("CREDITO")){
             Double disponivel = conta.limite() - conta.credito();
 
-            if (disponivel <= pedidoEncontrado.getPrecoTotal()){
+            if (disponivel < pedidoEncontrado.getPrecoTotal()){
                 throw new CreditoInsuficienteException("O valor disponivel de crédito é insuficiente");
             }
 
@@ -143,17 +143,12 @@ public class PedidoService {
 
         }else{
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
+            if(conta.saldo() < pedidoEncontrado.getPrecoTotal()){
+                throw new SaldoInsuficienteExcepetion("Saldo insuficiente");
+            }
 
-            HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+            restTemplate.getForObject("http://localhost:8080/conta/adicionar-debito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal(), Void.class);
 
-            restTemplate.exchange(
-                    "http://localhost:8080/conta/valor-debito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal(),
-                    HttpMethod.PATCH,
-                    requestEntity,
-                    Void.class
-            );
 
 
             //restTemplate.getForObject("http://localhost:8080/conta/valor-debito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal(), ContaDto.class);
@@ -175,20 +170,8 @@ public class PedidoService {
 
         pedidoEncontrado.setCarrinho(false);
         Pedido pedidoSavo = repository.save(pedidoEncontrado);
-        assert usuarioResumoDto != null;
-
-        System.out.println("""
-                
-                ---------
-                
-                
-                
-                """ +usuarioResumoDto.login() + """
-                
-                ---------------------
-                """);
-
-        emailService.enviarConfirmacaoPedido(usuarioResumoDto);
+        //assert usuarioResumoDto != null;
+        //emailService.enviarConfirmacaoPedido(usuarioResumoDto);
         return pedidoListarMapperStruct.toPedidoDto(pedidoSavo);
     }
 

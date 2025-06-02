@@ -87,7 +87,7 @@ public class ContaController {
         }
     }
 
-    @PatchMapping("adicionar-debito/{idConta}/{valor}")
+    @GetMapping("adicionar-debito/{idConta}/{valor}")
     public ResponseEntity<Void> adicionarDebito(@PathVariable UUID idConta, @PathVariable Double valor) {
         try {
             contaService.adicionarDebito(idConta, valor);

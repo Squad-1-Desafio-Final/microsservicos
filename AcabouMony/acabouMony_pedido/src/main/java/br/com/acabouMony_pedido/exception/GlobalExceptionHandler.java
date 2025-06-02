@@ -43,6 +43,22 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler(CreditoInsuficienteException.class)
+    public ResponseEntity<String> handleCreditoInsuficiente(CreditoInsuficienteException e){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
+    }
+
+
+    @ExceptionHandler(SaldoInsuficienteExcepetion.class)
+    public ResponseEntity<String> handleSaldoInsuficiente(SaldoInsuficienteExcepetion e){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
+    }
+
+
 
 
 }
