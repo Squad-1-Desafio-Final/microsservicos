@@ -15,12 +15,12 @@ public class EmailServiceTransacao {
 
     public void enviarConfirmacaoTransacao(UsuarioResumoDto dto) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(dto.email());
+        message.setTo(dto.login());
         message.setFrom("monicajleamari@gmail.com\n");
-        message.setSubject("Confirmação de Pedido");
+        message.setSubject("Confirmação de Transição");
         message.setText("Olá " + dto.nome() + ",\n\nSua transação foi realizado com sucesso!");
 
         mailSender.send(message);
-        System.out.println("E-mail enviado com sucesso para " + dto.email());
+        System.out.println("E-mail enviado com sucesso para " + dto.login());
     }
 }

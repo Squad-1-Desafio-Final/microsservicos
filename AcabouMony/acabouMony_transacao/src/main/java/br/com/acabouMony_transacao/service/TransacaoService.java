@@ -55,6 +55,9 @@ public class TransacaoService {
 
         PedidoResumoDto pedido = restTemplate.getForObject("http://localhost:8081/pedido/" + dados.pedido(), PedidoResumoDto.class);
 
+        PedidoCarrinhoDto carrinho = restTemplate.getForObject("http://localhost:8081/pedido/" + dados.pedido(), PedidoCarrinhoDto.class);
+
+
         if (usuario == null){
             throw new UsuarioNaoEncontradoException("Usuário não encontrado");
         }
