@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public record ListagemPedidoDto(
         UUID id,
-        br.com.acabouMony_pedido.dto.UsuarioResumoDto usuario,
+        UUID idUsuario,
         List<UUID> produtos,
         double precoTotal,
         LocalDateTime date,
