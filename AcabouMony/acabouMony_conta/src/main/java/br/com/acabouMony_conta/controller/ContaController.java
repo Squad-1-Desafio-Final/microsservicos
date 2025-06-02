@@ -77,10 +77,20 @@ public class ContaController {
         }
     }
 
-    @PatchMapping("/delecao/{id}")
-    public ResponseEntity<Void> deleteLogicaConta(@PathVariable UUID id) {
+    @GetMapping("/adicionar-credito/{idConta}/{valor}")
+    public ResponseEntity<Void> adicionarCredito(@PathVariable UUID idConta, @PathVariable Double valor) {
         try {
-            contaService.deleteLogicaConta(id);
+            contaService.adicionarCredito(idConta, valor);
+            return ResponseEntity.status(200).build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).build();
+        }
+    }
+
+    @PatchMapping("adicionar-debito/{idConta}/{valor}")
+    public ResponseEntity<Void> adicionarDebito(@PathVariable UUID idConta, @PathVariable Double valor) {
+        try {
+            contaService.adicionarDebito(idConta, valor);
             return ResponseEntity.status(200).build();
         } catch (RuntimeException e) {
             return ResponseEntity.status(404).build();

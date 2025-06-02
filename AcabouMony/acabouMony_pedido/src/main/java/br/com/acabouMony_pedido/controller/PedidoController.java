@@ -34,7 +34,7 @@ public class PedidoController {
         return ResponseEntity.status(201).body(service.criar(dados));
     }
 
-    @PatchMapping("concluir-transacao")
+    @PatchMapping("/concluir-transacao")
     public ResponseEntity<ListagemPedidoDto> concluirTransacao(@RequestBody ConcluirTransacaDto dados){
         return ResponseEntity.status(200).body(service.concluirTransacao(dados));
     }
