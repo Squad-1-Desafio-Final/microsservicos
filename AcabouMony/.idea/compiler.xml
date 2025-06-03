@@ -13,7 +13,7 @@
         </processorPath>
         <module name="acabouMony_usuario" />
       </profile>
-      <profile name="Annotation profile for acabouMony_transacao" enabled="true">
+      <profile name="Annotation profile for acabouMony_conta" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />

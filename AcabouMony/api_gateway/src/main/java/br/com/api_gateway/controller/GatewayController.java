@@ -2,11 +2,12 @@ package br.com.api_gateway.controller;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
 
 @RestController
 @RequestMapping("/api")
@@ -14,23 +15,19 @@ public class GatewayController {
 
     private final WebClient webClient;
 
-    // Inicializando um WebClient para encaminhar as requisições
     public GatewayController() {
         this.webClient = WebClient.builder().build();
     }
 
-    // Interceptando qualquer rota que siga /api/{service}/{path}/... (mas não /api/api)
+    // Mapeia qualquer rota que comece com /api/{service}, inclusive só /api/{service}
     @RequestMapping("/{service}/{path:^(?!api).*$}/**")
     public Mono<ResponseEntity<String>> proxy(
-            @PathVariable String service, // nome do serviço de destino
-            @PathVariable String path, // caminho restante
-            @RequestHeader HttpHeaders headers, // cabeçalhos da requisição original
+            @PathVariable String service,
+            @RequestHeader HttpHeaders headers,
             @RequestParam(required = false) MultiValueMap<String, String> queryParams,
             @RequestBody(required = false) Mono<String> body,
             ServerHttpRequest request
     ) {
-
-        // mapeando a requisição
         String url = switch (service) {
             case "conta" -> "http://localhost:8081";
             case "cartao" -> "http://localhost:8081";
@@ -42,17 +39,21 @@ public class GatewayController {
             default -> null;
         };
 
-        if (url == null) return Mono.just(ResponseEntity.status(400).build());
+        if (url == null) {
+            return Mono.just(ResponseEntity.status(400).build());
+        }
 
-        // Remove /api/{service} do caminho para montar o endpoint de destino
-        String fullPath =request.getURI().getRawPath().replace("/api/" + service, "");
+        System.out.println(url);
 
-        // Encaminha a requisição para o serviço de destino
-        return webClient.method(request.getMethod())// mesmo método HTTP (GET, POST, etc.)
-                .uri(url + fullPath)    // url completa do serviço
-                .headers(httpHeaders -> httpHeaders.addAll(headers)) // copia todos os cabeçalhos
-                .body(body == null ? Mono.empty() : body, String.class) // encaminha o corpo da requisição (se houver)
+        // Remove "/api/{service}" do path para formar a URL destino
+        String fullPath = request.getURI().getRawPath().replace("/api/" + service, "");
+
+        System.out.println("http://localhost:8081/conta");
+        return webClient.method(request.getMethod())
+                .uri("http://localhost:8081/conta")
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .body(body == null ? Mono.empty() : body, String.class)
                 .retrieve()
-                .toEntity(String.class); // retorna a resposta como ResponseEntity<String>
+                .toEntity(String.class);
     }
 }

@@ -44,7 +44,7 @@ public class UsuarioService {
 
         Usuario usuarioSalvo = usuarioRepository.save(new Usuario(dto));
 
-        kafkaTemplate.send("usuario-criado", "Usuário criado com sucesso");
+//        kafkaTemplate.send("usuario-criado", "Usuário criado com sucesso");
 
         return usuarioMapper.toListagemUsuarioDTO(usuarioSalvo);
     }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-06-03T13:27:09-0300",
+    date = "2025-06-03T15:06:45-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.6 (Amazon.com Inc.)"
 )
 @Component
@@ -23,8 +23,6 @@ public class CartaoMapperImpl implements CartaoMapper {
 
         Cartao cartao = new Cartao();
 
-        cartao.setIdConta( dto.idConta() );
-
         return cartao;
     }
 
@@ -36,9 +34,6 @@ public class CartaoMapperImpl implements CartaoMapper {
 
         String numero = null;
         TipoPagamento tipo = null;
-
-        numero = entity.getNumero();
-        tipo = entity.getTipo();
 
         ListagemCartaoDTO listagemCartaoDTO = new ListagemCartaoDTO( numero, tipo );
 
