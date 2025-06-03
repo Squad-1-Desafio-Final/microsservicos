@@ -1,14 +1,19 @@
 package br.com.acabouMony_pedido.mapper;
-
 import br.com.acabouMony_pedido.dto.UsuarioResumoDto;
-import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
-public interface UsuarioResumoMapper {
+@Component
+public class UsuarioResumoMapper {
 
-//    @Mapping(source = "nome", target = "nome")
-    Object toEntity(UsuarioResumoDto dto);
-    UsuarioResumoDto toPedidoDto(Object entity);
-    UsuarioResumoDto toDadosPedidoDto(Object entity);
+    public static UsuarioResumoDto toDto(UsuarioResumoDto usuario) {
+        if (usuario == null) {
+            return null; // ou lance exceção se preferir
+        }
 
-
+        return new UsuarioResumoDto(
+                usuario.id(),
+                usuario.nome(),
+                usuario.login()
+        );
+    }
 }

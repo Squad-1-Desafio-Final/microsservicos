@@ -2,6 +2,7 @@ package br.com.acabouMony_transacao.service;
 
 import br.com.acabouMony_transacao.dto.*;
 import br.com.acabouMony_transacao.exception.CartaoNaoEncontrado;
+import br.com.acabouMony_transacao.exception.PedidoComCarrinhoAtivoException;
 import br.com.acabouMony_transacao.exception.PedidoNaoEncontrado;
 import br.com.acabouMony_transacao.exception.UsuarioNaoEncontradoException;
 import org.springframework.stereotype.Service;
@@ -66,6 +67,10 @@ public class TransacaoService {
         }
         if (pedido == null){
             throw new PedidoNaoEncontrado("Pedido não encontrado");
+        }
+
+        if (carrinho.carrinho()) {
+            throw new PedidoComCarrinhoAtivoException("O pedido ainda está com o carrinho ativo");
         }
 
         Transacao transacao = transacaoCadastroMapper.toEntity(dados);

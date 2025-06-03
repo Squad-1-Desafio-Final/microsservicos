@@ -11,7 +11,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ProdutoMapperStruct {
 
-    // @Mapping(source = "nome", target = "nome")
+     @Mapping(source = "nome", target = "nome")
     Produto toEntity(CadastroProdutoDto dto);
     CadastroProdutoDto toProdutoDto(Produto entity);
     CadastroProdutoDto toDadosProdutoDto(Produto entity);

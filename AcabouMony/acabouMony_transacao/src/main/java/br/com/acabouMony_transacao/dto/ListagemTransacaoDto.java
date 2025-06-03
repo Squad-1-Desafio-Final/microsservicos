@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.UUID;
 
 public record ListagemTransacaoDto(
-        br.com.acabouMony_transacao.dto.UsuarioResumoDto usuario,
-        CartaoResumoDto cartao,
+        UUID usuario,
+        UUID cartao,
         Date date,
         UUID pedido
 ) {

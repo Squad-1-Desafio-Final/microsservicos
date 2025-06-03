@@ -4,23 +4,15 @@ import br.com.acabouMony_pedido.dto.*;
 import br.com.acabouMony_pedido.entity.Pedido;
 import br.com.acabouMony_pedido.entity.Produto;
 import br.com.acabouMony_pedido.exception.*;
-import br.com.acabouMony_pedido.mapper.PedidoCadastrarMapperStruct;
-import br.com.acabouMony_pedido.mapper.PedidoListarMapperStruct;
+import br.com.acabouMony_pedido.mapper.CadastroPedidoMapper;
+import br.com.acabouMony_pedido.mapper.ListagemPedidoMapper;
 import br.com.acabouMony_pedido.repository.PedidoRepository;
 import br.com.acabouMony_pedido.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpHeaders;
 
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -39,11 +31,11 @@ public class PedidoService {
     ProdutoRepository produtoRepository;
 
     @Autowired
-    PedidoCadastrarMapperStruct pedidoCadastrarMapperStruct;
+    CadastroPedidoMapper pedidoCadastrarMapper;
 
 
     @Autowired
-    PedidoListarMapperStruct pedidoListarMapperStruct;
+    ListagemPedidoMapper pedidoListarMapper;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -55,7 +47,7 @@ public class PedidoService {
         List<Pedido> pedidos = repository.findAll();
 
         return pedidos.stream()
-                .map(pedidoListarMapperStruct::toPedidoDto)
+                .map(pedidoListarMapper::toDto)
                 .collect(Collectors.toList());
 
     }
@@ -63,14 +55,14 @@ public class PedidoService {
     public ListagemPedidoDto listarPorId(UUID id){
         Pedido pedidos = repository.findById(id).orElseThrow(() -> new PedidoNaoEncontrado("Pedido não encontrado"));
 
-        return pedidoListarMapperStruct.toPedidoDto(pedidos);
+        return pedidoListarMapper.toDto(pedidos);
 
     }
 
     public ListagemPedidoDto criar(CadastroPedidoDto dados){
         UsuarioResumoDto usuario = restTemplate.getForObject("http://localhost:8084/usuario/" + dados.usuario(), UsuarioResumoDto.class);
 
-        Pedido pedido = pedidoCadastrarMapperStruct.toEntity(dados);
+        Pedido pedido = pedidoCadastrarMapper.toEntity(dados);
         pedido.setDate(new Date(System.currentTimeMillis() + 1000));
         pedido.setCarrinho(true);
         pedido.setIdUsuario(usuario.id());
@@ -87,7 +79,7 @@ public class PedidoService {
 
         Pedido pedidoSalvo = repository.save(pedido);
 
-        return pedidoListarMapperStruct.toPedidoDto(pedidoSalvo);
+        return pedidoListarMapper.toDto(pedidoSalvo);
 
     }
 
@@ -102,7 +94,7 @@ public class PedidoService {
 
         Pedido pedidoSavo = repository.save(pedidoEncontrado);
 
-        return pedidoListarMapperStruct.toPedidoDto(pedidoSavo);
+        return pedidoListarMapper.toDto(pedidoSavo);
 
     }
 
@@ -172,7 +164,7 @@ public class PedidoService {
         Pedido pedidoSavo = repository.save(pedidoEncontrado);
         //assert usuarioResumoDto != null;
         //emailService.enviarConfirmacaoPedido(usuarioResumoDto);
-        return pedidoListarMapperStruct.toPedidoDto(pedidoSavo);
+        return pedidoListarMapper.toDto(pedidoSavo);
     }
 
 }
