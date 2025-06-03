@@ -40,7 +40,7 @@ public class UsuarioService {
 
     @Transactional
     public ListagemUsuarioDTO saveUsuario(RegisterDTO dto) {
-        validarLoginExistente(dto.login());
+//        validarLoginExistente(dto.login());
 
         Usuario usuarioSalvo = usuarioRepository.save(new Usuario(dto));
 

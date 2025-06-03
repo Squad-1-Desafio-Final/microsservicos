@@ -15,16 +15,14 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 import java.security.Key;
-import java.util.Base64;
 
 @Component
 public class AuthWebFilter implements WebFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthWebFilter.class);
 
-    private final Key secretKey; // chave secreta para validar o JWT
+    private final Key secretKey;
 
-    // Injeta a chave em Base64 do application.properties ou variável de ambiente
     public AuthWebFilter(@Value("${api.security.token.secret}") String secretKeyString) {
         try {
             this.secretKey = Keys.hmacShaKeyFor(secretKeyString.getBytes());
@@ -34,21 +32,16 @@ public class AuthWebFilter implements WebFilter {
         }
     }
 
-    // Método principal chamado em cada requisição
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        // Obtém o cabeçalho Authorization
-        String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        String token = recoverToken(exchange);
 
-        // Se o cabeçalho não existir ou não começar com "Bearer ", retorna 401 Unauthorized
-
-        if (authHeader == null) {
-            logger.warn("Cabeçalho Authorization ausente ou inválido: {}", authHeader);
+        if (token == null) {
+            logger.warn("Cabeçalho Authorization ausente ou inválido");
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
 
-        String token = authHeader.substring(0);
         try {
             Jwts.parserBuilder()
                     .setSigningKey(secretKey)
@@ -58,9 +51,15 @@ public class AuthWebFilter implements WebFilter {
 
             return chain.filter(exchange);
         } catch (JwtException e) {
-            logger.warn("Falha na validação do token JWT: ", e.getMessage());
-            exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.warn("Falha na validação do token JWT", e);
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
+    }
+
+    private String recoverToken(ServerWebExchange exchange) {
+        String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) return null;
+        return authHeader.replace("Bearer ", "");
     }
 }

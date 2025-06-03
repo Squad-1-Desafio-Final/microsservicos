@@ -33,10 +33,8 @@ public class UsuarioController {
             ListagemUsuarioDTO usuarioSalvo = usuarioService.saveUsuario(dto);
             return ResponseEntity.status(201).body(usuarioSalvo);
         } catch (RuntimeException e) {
-            // Retorna mensagem de erro em JSON
-            Map<String, String> error = new HashMap<>();
-            error.put("error", "Ocorreu um erro ao cadastrar usuário! Já existe um cadastro com esse email!");
-            return ResponseEntity.status(409).body(error);
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(409).build();
         }
     }
 
