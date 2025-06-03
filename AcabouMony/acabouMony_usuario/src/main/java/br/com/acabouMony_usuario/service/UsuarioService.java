@@ -38,19 +38,6 @@ public class UsuarioService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-//    @Transactional
-//    public ListagemUsuarioDTO saveUsuario(RegisterDTO dto) {
-//        if (usuarioRepository.existsByLogin(dto.login())) {
-//            throw new RuntimeException("Este e-mail já está cadastrado.");
-//        }
-//        var usuario = new Usuario(dto);
-//        Usuario usuarioSalvo = usuarioRepository.save(usuario);
-//
-//        kafkaTemplate.send("usuario-criado","Usuário criado com sucesso");
-//
-//        return usuarioMapper.toListagemUsuarioDTO(usuarioSalvo);
-//    }
-
     @Transactional
     public ListagemUsuarioDTO saveUsuario(RegisterDTO dto) {
         validarLoginExistente(dto.login());

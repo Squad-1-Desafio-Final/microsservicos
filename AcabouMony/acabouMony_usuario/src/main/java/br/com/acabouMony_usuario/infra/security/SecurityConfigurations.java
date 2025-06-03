@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfigurations {
+public class    SecurityConfigurations {
     @Autowired
     SecurityFilter securityFilter;
 
@@ -31,6 +31,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/usuario").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuario/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuario").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/usuario").permitAll()
                         .requestMatchers(HttpMethod.POST, "/endereco").permitAll()
                         .anyRequest().authenticated()
                 )
