@@ -52,11 +52,11 @@ public class TransacaoService {
 
         UsuarioResumoDto usuario = restTemplate.getForObject("http://localhost:8084/usuario/"+ dados.usuario(), UsuarioResumoDto.class);
 
-        CartaoResumoDto cartao = restTemplate.getForObject("http://localhost:8080/cartao/"+ dados.cartao(), CartaoResumoDto.class);
+        CartaoResumoDto cartao = restTemplate.getForObject("http://localhost:8081/cartao/"+ dados.cartao(), CartaoResumoDto.class);
 
-        PedidoResumoDto pedido = restTemplate.getForObject("http://localhost:8081/pedido/" + dados.pedido(), PedidoResumoDto.class);
+        PedidoResumoDto pedido = restTemplate.getForObject("http://localhost:8082/pedido/" + dados.pedido(), PedidoResumoDto.class);
 
-        PedidoCarrinhoDto carrinho = restTemplate.getForObject("http://localhost:8081/pedido/" + dados.pedido(), PedidoCarrinhoDto.class);
+        PedidoCarrinhoDto carrinho = restTemplate.getForObject("http://localhost:8082/pedido/" + dados.pedido(), PedidoCarrinhoDto.class);
 
 
         if (usuario == null){

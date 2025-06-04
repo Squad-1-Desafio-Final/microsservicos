@@ -19,13 +19,17 @@ public class TransacaoController {
     TransacaoService service;
 
     @GetMapping
-    public ResponseEntity<List<ListagemTransacaoDto>> listar(){
+    public ResponseEntity<List<ListagemTransacaoDto>> listar() {
         return ResponseEntity.status(200).body(service.listar());
     }
 
     @PostMapping
-    public ResponseEntity<ListagemTransacaoDto> cadastrar(@RequestBody CadastroTransacaoDto dados){
-        return ResponseEntity.status(201).body(service.criar(dados));
+    public ResponseEntity cadastrar(@RequestBody CadastroTransacaoDto dados) {
+        try {
+            return ResponseEntity.status(201).body(service.criar(dados));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
 }
