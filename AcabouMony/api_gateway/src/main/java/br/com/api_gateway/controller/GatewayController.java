@@ -20,7 +20,7 @@ public class GatewayController {
     }
 
     // Mapeia qualquer rota que comece com /api/{service}, inclusive só /api/{service}
-    @RequestMapping("/{service}/{path:^(?!api).*$}/**")
+    @RequestMapping("/{service}/**")
     public Mono<ResponseEntity<String>> proxy(
             @PathVariable String service,
             @RequestHeader HttpHeaders headers,
@@ -29,13 +29,10 @@ public class GatewayController {
             ServerHttpRequest request
     ) {
         String url = switch (service) {
-            case "conta" -> "http://localhost:8081";
-            case "cartao" -> "http://localhost:8081";
-            case "produto" -> "http://localhost:8082";
-            case "pedido" -> "http://localhost:8082";
+            case "conta", "cartao" -> "http://localhost:8081";
+            case "produto", "pedido" -> "http://localhost:8082";
             case "transacao" -> "http://localhost:8083";
-            case "endereco" -> "http://localhost:8084";
-            case "usuario" -> "http://localhost:8084";
+            case "endereco", "usuario" -> "http://localhost:8084";
             default -> null;
         };
 
@@ -43,14 +40,22 @@ public class GatewayController {
             return Mono.just(ResponseEntity.status(400).build());
         }
 
-        System.out.println(url);
-
         // Remove "/api/{service}" do path para formar a URL destino
-        String fullPath = request.getURI().getRawPath().replace("/api/" + service, "");
+        String originalPath = request.getURI().getRawPath();
+        String prefixToStrip = "/api/" + service;
+        String path = originalPath.substring(prefixToStrip.length());
 
-        System.out.println("http://localhost:8081/conta");
+        String uri = url + "/" + service + path;
+
+        if (queryParams != null && !queryParams.isEmpty()) {
+            uri += "?" + queryParams.toSingleValueMap().entrySet().stream()
+                    .map(entry -> entry.getKey() + "=" + entry.getValue())
+                    .reduce((a, b) -> a + "&" + b)
+                    .orElse("");
+        }
+
         return webClient.method(request.getMethod())
-                .uri("http://localhost:8081/conta")
+                .uri(uri)
                 .headers(httpHeaders -> httpHeaders.addAll(headers))
                 .body(body == null ? Mono.empty() : body, String.class)
                 .retrieve()
