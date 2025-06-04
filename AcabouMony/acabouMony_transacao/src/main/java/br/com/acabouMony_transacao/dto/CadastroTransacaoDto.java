@@ -7,6 +7,6 @@ import java.util.UUID;
 public record CadastroTransacaoDto(
         TipoPagamento tipo,
         UUID cartao,
-        UUID usuario,
+        UUID destinatario,
         UUID pedido
 ) { }

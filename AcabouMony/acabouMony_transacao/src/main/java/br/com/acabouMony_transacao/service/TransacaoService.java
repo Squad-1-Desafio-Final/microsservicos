@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,18 +51,14 @@ public class TransacaoService {
 
     public ListagemTransacaoDto criar (CadastroTransacaoDto dados){
 
-        UsuarioResumoDto usuario = restTemplate.getForObject("http://localhost:8084/usuario/"+ dados.usuario(), UsuarioResumoDto.class);
+        CartaoResumoDto cartao = getCartaoResumo(dados);
 
-        CartaoResumoDto cartao = restTemplate.getForObject("http://localhost:8081/cartao/"+ dados.cartao(), CartaoResumoDto.class);
-
-        PedidoResumoDto pedido = restTemplate.getForObject("http://localhost:8082/pedido/" + dados.pedido(), PedidoResumoDto.class);
-
-        PedidoCarrinhoDto carrinho = restTemplate.getForObject("http://localhost:8082/pedido/" + dados.pedido(), PedidoCarrinhoDto.class);
+        PedidoResumoDto pedido = getPedidoResumo(dados);
 
 
-        if (usuario == null){
-            throw new UsuarioNaoEncontradoException("Usuário não encontrado");
-        }
+        //PedidoCarrinhoDto carrinho = restTemplate.getForObject("http://localhost:8082/pedido/" + dados.pedido(), PedidoCarrinhoDto.class);
+
+
         if (cartao == null){
             throw new CartaoNaoEncontrado("Cartão não encontrado");
         }
@@ -69,7 +66,7 @@ public class TransacaoService {
             throw new PedidoNaoEncontrado("Pedido não encontrado");
         }
 
-        if (carrinho.carrinho()) {
+        if (pedido.carrinho()) {
             throw new PedidoComCarrinhoAtivoException("O pedido ainda está com o carrinho ativo");
         }
 
@@ -77,11 +74,12 @@ public class TransacaoService {
         transacao.setData(new Date(System.currentTimeMillis() + 1000));
         transacao.setIdCartao(dados.cartao());
         transacao.setIdPedido(dados.pedido());
-        transacao.setIdDestinatario(dados.usuario());
+        transacao.setIdDestinatario(dados.destinatario());
         transacao.setTipo(dados.tipo());
         Transacao transacaoSalva = repository.save(transacao);
 
-        emailServiceTransacao.enviarConfirmacaoTransacao(usuario);
+
+        //emailServiceTransacao.enviarConfirmacaoTransacao(transacaoSalva);
 
         return transacaoListarMapper.toTransacaoDto(transacaoSalva);
 
@@ -89,11 +87,21 @@ public class TransacaoService {
 
     public List<ListagemTransacaoDto> listar (){
 
-      List<Transacao> transacoes = repository.findAll();
+        List<Transacao> transacoes = repository.findAll();
 
         return transacoes.stream()
                 .map(transacaoListarMapper::toTransacaoDto)
                 .collect(Collectors.toList());
+    }
+
+
+
+    public CartaoResumoDto getCartaoResumo(CadastroTransacaoDto dados){
+        return restTemplate.getForObject("http://localhost:8081/cartao/"+ dados.cartao(), CartaoResumoDto.class);
+    }
+
+    public PedidoResumoDto getPedidoResumo(CadastroTransacaoDto dados){
+        return restTemplate.getForObject("http://localhost:8082/pedido/" + dados.pedido(), PedidoResumoDto.class);
     }
 
 }

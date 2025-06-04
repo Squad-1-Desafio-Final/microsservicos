@@ -105,9 +105,9 @@ public class PedidoService {
 
         UsuarioResumoDto usuarioResumoDto = restTemplate.getForObject("http://localhost:8084/usuario/" + dto.idUsuario(), UsuarioResumoDto.class);
 
-        ContaDto conta = restTemplate.getForObject("http://localhost:8080/conta/usuario/" + dto.idUsuario(), ContaDto.class);
+        ContaDto conta = restTemplate.getForObject("http://localhost:8081/conta/usuario/" + dto.idUsuario(), ContaDto.class);
 
-        CartaoDto cartao = restTemplate.getForObject("http://localhost:8080/cartao/conta/" + conta.idConta(), CartaoDto.class);
+        CartaoDto cartao = restTemplate.getForObject("http://localhost:8081/cartao/conta/" + conta.idConta(), CartaoDto.class);
 
         //Verificando tipo de pagamento pedido e cartão
         String tipoCartao = cartao.tipo();
@@ -127,7 +127,7 @@ public class PedidoService {
 
           //restTemplate.exchange("http://localhost:8080/conta/adicionar-credito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal());
 
-            restTemplate.getForObject("http://localhost:8080/conta/adicionar-credito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal(), Void.class);
+            restTemplate.getForObject("http://localhost:8081/conta/adicionar-credito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal(), Void.class);
 
 
 
@@ -139,7 +139,7 @@ public class PedidoService {
                 throw new SaldoInsuficienteExcepetion("Saldo insuficiente");
             }
 
-            restTemplate.getForObject("http://localhost:8080/conta/adicionar-debito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal(), Void.class);
+            restTemplate.getForObject("http://localhost:8081/conta/adicionar-debito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal(), Void.class);
 
 
 

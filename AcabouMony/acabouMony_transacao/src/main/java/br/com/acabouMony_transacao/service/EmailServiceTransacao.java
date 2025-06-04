@@ -2,6 +2,7 @@ package br.com.acabouMony_transacao.service;
 
 import br.com.acabouMony_transacao.dto.TransacaoResumoDto;
 import br.com.acabouMony_transacao.dto.UsuarioResumoDto;
+import br.com.acabouMony_transacao.entity.Transacao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

@@ -20,7 +20,7 @@ public class TransacaoCadastroMapper {
         Transacao transacao = new Transacao();
         transacao.setTipo(dto.tipo());
         transacao.setIdCartao(dto.cartao());
-        transacao.setIdDestinatario(dto.usuario());
+        transacao.setIdDestinatario(dto.destinatario());
         transacao.setIdPedido(dto.pedido());
 
 

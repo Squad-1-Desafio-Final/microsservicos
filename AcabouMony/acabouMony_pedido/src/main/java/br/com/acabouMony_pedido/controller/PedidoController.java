@@ -5,6 +5,7 @@ import br.com.acabouMony_pedido.dto.ConcluirTransacaDto;
 import br.com.acabouMony_pedido.dto.ListagemPedidoDto;
 import br.com.acabouMony_pedido.entity.Pedido;
 import br.com.acabouMony_pedido.service.PedidoService;
+import com.sun.jdi.event.ExceptionEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,12 @@ public class PedidoController {
 
     @PatchMapping("/concluir-transacao")
     public ResponseEntity<ListagemPedidoDto> concluirTransacao(@RequestBody ConcluirTransacaDto dados){
-        return ResponseEntity.status(200).body(service.concluirTransacao(dados));
+        try {
+            return ResponseEntity.status(200).body(service.concluirTransacao(dados));
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     @PatchMapping("/editar/{id}")
