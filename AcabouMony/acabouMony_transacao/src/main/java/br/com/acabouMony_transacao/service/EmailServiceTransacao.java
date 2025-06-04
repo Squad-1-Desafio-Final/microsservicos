@@ -19,7 +19,11 @@ public class EmailServiceTransacao {
         message.setTo(dto.login());
         message.setFrom("monicajleamari@gmail.com\n");
         message.setSubject("Confirmação de Transição");
-        message.setText("Olá " + dto.nome() + ",\n\nSua transação foi realizado com sucesso!");
+        message.setText("Olá " + dto.nome() + " \uD83D\uDE0A\n" +
+                "\n" +
+                "Sua transação foi concluída com sucesso! \uD83D\uDCB8\n" +
+                "\n" +
+                "Caso precise de algo mais, estamos à disposição para ajudar. Conte conosco! ");
 
         mailSender.send(message);
         System.out.println("E-mail enviado com sucesso para " + dto.login());
