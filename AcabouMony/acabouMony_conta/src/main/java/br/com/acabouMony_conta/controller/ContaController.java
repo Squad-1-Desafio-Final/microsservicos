@@ -26,6 +26,7 @@ public class ContaController {
         try {
             var conta = contaService.saveConta(dto);
             return ResponseEntity.status(201).body(conta);
+
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return ResponseEntity.status(409).build();

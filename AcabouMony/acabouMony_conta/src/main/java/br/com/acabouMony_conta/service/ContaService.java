@@ -10,7 +10,6 @@ import br.com.acabouMony_conta.repository.ContaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.Date;
@@ -51,7 +50,7 @@ public class ContaService {
             throw new RuntimeException("Conta com esse Usuário já existe");
         }
 
-        Conta conta = contaMapper.toEntity(dto);
+        Conta conta = contaMapper.toEntityCad(dto);
 
         conta.setDataCriacao(Date.valueOf(LocalDate.now()));
         conta.setAtivo(true);
@@ -62,7 +61,7 @@ public class ContaService {
 
         cartaoService.saveCartao(new CadastroCartaoDTO(contaSalva.getIdConta()));
 
-        return contaMapper.toListagemContaDTO(conta);
+        return contaMapper.toDto(conta);
 
     }
 
@@ -76,7 +75,7 @@ public class ContaService {
         var listaListagemConta = new ArrayList<ListagemContaDTO>();
 
         listaContas.stream().forEach(
-                c -> listaListagemConta.add(contaMapper.toListagemContaDTO(c)));
+                c -> listaListagemConta.add(contaMapper.toDto(c)));
 
         return listaListagemConta;
     }
@@ -88,7 +87,7 @@ public class ContaService {
             throw new RuntimeException("Conta com esse ID não existe!");
         }
 
-        return contaMapper.toListagemContaDTO(conta.get());
+        return contaMapper.toDto(conta.get());
     }
 
     public ListagemContaDTO updateConta(UUID id, AtualizacaoContaDTO dto) {
@@ -101,7 +100,7 @@ public class ContaService {
         var conta = contaEncontrada.get();
         conta.setLimite(dto.limite());
         contaRepository.save(conta);
-        return contaMapper.toListagemContaDTO(conta);
+        return contaMapper.toDto(conta);
     }
 
     public void deleteConta(UUID id) {

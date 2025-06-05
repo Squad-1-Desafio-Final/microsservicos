@@ -2,14 +2,11 @@ package br.com.acabouMony_conta.service;
 
 import br.com.acabouMony_conta.dto.CadastroCartaoDTO;
 import br.com.acabouMony_conta.dto.ListagemCartaoDTO;
-import br.com.acabouMony_conta.dto.ListagemContaDTO;
 import br.com.acabouMony_conta.entity.Cartao;
 import br.com.acabouMony_conta.mapper.CartaoMapper;
 import br.com.acabouMony_conta.repository.CartaoRepository;
-import br.com.acabouMony_conta.tipos.TipoPagamento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.YearMonth;
@@ -47,7 +44,7 @@ public class CartaoService {
         cartao.setValidade(gerarDataValidadeFormatada());
         cartaoRepository.save(cartao);
 
-        return cartaoMapper.toCartaoDto(cartao);
+        return cartaoMapper.toDto(cartao);
     }
 
 
@@ -61,7 +58,7 @@ public class CartaoService {
         var listaListagemCartoes = new ArrayList<ListagemCartaoDTO>();
 
         listaCartoes.stream().forEach(
-                c -> listaListagemCartoes.add(cartaoMapper.toCartaoDto(c)));
+                c -> listaListagemCartoes.add(cartaoMapper.toDto(c)));
 
         return listaListagemCartoes;
     }
@@ -74,7 +71,7 @@ public class CartaoService {
             throw new RuntimeException("Conta com esse ID não existe!");
         }
 
-        return cartaoMapper.toCartaoDto(cartao.get());
+        return cartaoMapper.toDto(cartao.get());
     }
 
 
