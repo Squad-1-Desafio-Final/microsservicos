@@ -80,8 +80,8 @@ public class UsuarioController {
     @PatchMapping("/{id}/nome")
     public ResponseEntity<Usuario> atualizarNome(@PathVariable UUID id, @RequestBody @Valid AtualizarNomeUsuarioDTO nomeDTO) {
         try {
-            var usuario = usuarioService.listarUmUsuario(id);
-            usuarioService.atualizarNome(id, nomeDTO.nome());
+
+            var usuario = usuarioService.atualizarNome(id, nomeDTO.nome());
             return ResponseEntity.ok(usuario);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -91,8 +91,7 @@ public class UsuarioController {
     @PatchMapping("/{id}/email")
     public ResponseEntity<Usuario> atualizarEmail(@PathVariable UUID id, @RequestBody @Valid AtualizarEmailUsuarioDTO emailDTO) {
         try {
-            var usuario = usuarioService.listarUmUsuario(id);
-            usuarioService.atualizarEmail(id, emailDTO.email());
+            var usuario = usuarioService.atualizarEmail(id, emailDTO.email());
             return ResponseEntity.ok(usuario);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -102,8 +101,8 @@ public class UsuarioController {
     @PatchMapping("/{id}/senha")
     public ResponseEntity<Usuario> atualizarSenha(@PathVariable UUID id, @RequestBody @Valid AtualizarSenhaUsuarioDTO senhaDTO) {
         try {
-            var usuario = usuarioService.listarUmUsuario(id);
-            usuarioService.atualizarSenha(id, senhaDTO.senha());
+
+            var usuario = usuarioService.atualizarSenha(id, senhaDTO.senha());
             return ResponseEntity.ok(usuario);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -113,8 +112,7 @@ public class UsuarioController {
     @PatchMapping("/{id}/telefone")
     public ResponseEntity<Usuario> atualizarTelefone(@PathVariable UUID id, @RequestBody @Valid AtualizarTelefoneUsuarioDTO telefoneDTO) {
         try {
-            var usuario = usuarioService.listarUmUsuario(id);
-            usuarioService.atualizarTelefone(id, telefoneDTO.telefone());
+            var usuario = usuarioService.atualizarTelefone(id, telefoneDTO.telefone());
             return ResponseEntity.ok(usuario);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();

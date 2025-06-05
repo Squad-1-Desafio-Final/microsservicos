@@ -19,22 +19,22 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
     @Modifying
     @Transactional
     @Query("UPDATE Usuario u set u.nome = :nome WHERE u.id = :id")
-    int atualizarNome(UUID id, String nome);
+    Usuario atualizarNome(UUID id, String nome);
 
     @Modifying
     @Transactional
     @Query("UPDATE Usuario u set u.login = :email WHERE u.id = :id")
-    int atualizarLogin(UUID id, String email);
+    Usuario atualizarLogin(UUID id, String email);
 
     @Modifying
     @Transactional
     @Query("UPDATE Usuario u set u.password = :senha WHERE u.id = :id")
-    int atualizarpassword(UUID id, String senha);
+    Usuario atualizarpassword(UUID id, String senha);
 
     @Modifying
     @Transactional
     @Query("UPDATE Usuario u set u.telefone = :telefone WHERE u.id = :id")
-    int atualizarTelefone(UUID id, String telefone);
+    Usuario atualizarTelefone(UUID id, String telefone);
 
     UserDetails findByLogin(String login);
 
