@@ -5,13 +5,16 @@ import br.com.acabouMony_conta.dto.ListagemContaDTO;
 import br.com.acabouMony_conta.entity.Conta;
 import org.springframework.stereotype.Component;
 
+import java.time.ZoneId;
+import java.util.Date;
+
 @Component
 public class ContaMapper {
 
     // Entidade -> DTO
     public ListagemContaDTO toDto(Conta conta) {
         return new ListagemContaDTO(
-                java.sql.Date.valueOf(conta.getDataVencimento()), // LocalDate -> Date
+                conta.getDataCriacao(),
                 conta.getLimite(),
                 conta.getAgencia(),
                 conta.getNumero()

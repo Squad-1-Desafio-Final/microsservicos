@@ -35,12 +35,9 @@ public class ContaController {
 
     @GetMapping
     public ResponseEntity<List<ListagemContaDTO>> getAllContas() {
-        try {
             var conta = contaService.getAllContas();
+            System.out.println(conta);
             return ResponseEntity.status(200).body(conta);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(204).build();
-        }
     }
 
     @GetMapping("/usuario/{id}")

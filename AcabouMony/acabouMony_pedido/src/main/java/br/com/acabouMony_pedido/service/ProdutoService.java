@@ -28,8 +28,6 @@ public class ProdutoService {
         return produtoMapper.toDto(produtoSalvo);
     }
 
-
-
     public CadastroProdutoDto listar(UUID id){
         Produto produtos = repository.findById(id).orElseThrow(() -> new ProdutoNaoEncontrado("Produto não encontrado"));
 
@@ -51,8 +49,6 @@ public class ProdutoService {
 
         Produto produtoSalvo = repository.save(produto);
         return produtoMapper.toDto(produtoSalvo);
-
-
     }
 
     public List<CadastroProdutoDto> listarTodos(){
@@ -64,13 +60,4 @@ public class ProdutoService {
                 .collect(Collectors.toList());
 
     }
-
-    public List<Produto> listarId(List<UUID> idProduto){
-        List<Produto> listar = repository.findAllById(idProduto);
-
-        return listar;
-    }
-
-
-
 }

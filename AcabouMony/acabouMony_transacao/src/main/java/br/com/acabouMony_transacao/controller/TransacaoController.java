@@ -28,6 +28,7 @@ public class TransacaoController {
         try {
             return ResponseEntity.status(201).body(service.criar(dados));
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }

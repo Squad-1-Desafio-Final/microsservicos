@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ContaService {
@@ -66,18 +67,15 @@ public class ContaService {
     }
 
     public List<ListagemContaDTO> getAllContas() {
-        var listaContas = contaRepository.findAll();
+        List<Conta> listaContas = contaRepository.findAll();
 
         if (listaContas.isEmpty()) {
             throw new RuntimeException("Nenhuma conta cadastrada");
         }
 
-        var listaListagemConta = new ArrayList<ListagemContaDTO>();
-
-        listaContas.stream().forEach(
-                c -> listaListagemConta.add(contaMapper.toDto(c)));
-
-        return listaListagemConta;
+        return listaContas.stream()
+                .map(conta -> contaMapper.toDto(conta))
+                .collect(Collectors.toList());
     }
 
     public ListagemContaDTO getOneConta(UUID id) {

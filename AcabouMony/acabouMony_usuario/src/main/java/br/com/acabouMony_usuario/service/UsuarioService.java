@@ -74,20 +74,51 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    public void atualizarNome(UUID id, String nome) {
-        usuarioRepository.atualizarNome(id, nome);
+    public Usuario atualizarNome(UUID id, String nome) {
+
+        Usuario usuarioEncontrado = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não existe"));
+
+        usuarioEncontrado.setNome(nome);
+        usuarioEncontrado.setId(id);
+
+        Usuario usuarioSalvo = usuarioRepository.save(usuarioEncontrado);
+
+        return usuarioSalvo;
+
     }
 
-    public void atualizarEmail(UUID id, String email) {
-        usuarioRepository.atualizarLogin(id, email);
+    public Usuario atualizarEmail(UUID id, String email) {
+
+        Usuario usuarioEncontrado = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não existe"));
+
+        usuarioEncontrado.setLogin(email);
+        usuarioEncontrado.setId(id);
+
+        Usuario usuarioSalvo = usuarioRepository.save(usuarioEncontrado);
+
+        return usuarioSalvo;
     }
 
-    public void atualizarSenha(UUID id, String senha) {
-        usuarioRepository.atualizarpassword(id, senha);
+    public Usuario atualizarSenha(UUID id, String senha) {
+        Usuario usuarioEncontrado = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não existe"));
+
+        usuarioEncontrado.setPassword(senha);
+        usuarioEncontrado.setId(id);
+
+        return usuarioRepository.save(usuarioEncontrado);
     }
 
-    public void atualizarTelefone(UUID id, String telefone) {
-        usuarioRepository.atualizarTelefone(id, telefone);
+    public Usuario atualizarTelefone(UUID id, String telefone) {
+        Usuario usuarioEncontrado = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não existe"));
+
+        usuarioEncontrado.setTelefone(telefone);
+        usuarioEncontrado.setId(id);
+
+        return usuarioRepository.save(usuarioEncontrado);
     }
 
     public List<Usuario> listarTodos() {

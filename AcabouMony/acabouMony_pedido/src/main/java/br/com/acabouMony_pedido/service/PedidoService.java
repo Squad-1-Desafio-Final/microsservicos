@@ -43,7 +43,7 @@ public class PedidoService {
     @Autowired
     private EmailService emailService;
 
-    public List<ListagemPedidoDto> listar(){
+    public List<ListagemPedidoDto> listar() {
         List<Pedido> pedidos = repository.findAll();
 
         return pedidos.stream()
@@ -52,14 +52,14 @@ public class PedidoService {
 
     }
 
-    public ListagemPedidoDto listarPorId(UUID id){
+    public ListagemPedidoDto listarPorId(UUID id) {
         Pedido pedidos = repository.findById(id).orElseThrow(() -> new PedidoNaoEncontrado("Pedido não encontrado"));
 
         return pedidoListarMapper.toDto(pedidos);
 
     }
 
-    public ListagemPedidoDto criar(CadastroPedidoDto dados){
+    public ListagemPedidoDto criar(CadastroPedidoDto dados) {
         UsuarioResumoDto usuario = restTemplate.getForObject("http://localhost:8084/usuario/" + dados.usuario(), UsuarioResumoDto.class);
 
         Pedido pedido = pedidoCadastrarMapper.toEntity(dados);
@@ -83,68 +83,77 @@ public class PedidoService {
 
     }
 
-    public ListagemPedidoDto editar(UUID id, Pedido dados){
+    public ListagemPedidoDto editar(UUID id, AtualizacaoPedidoDTO dados) {
 
         Pedido pedidoEncontrado = repository.findById(id)
                 .orElseThrow(() -> new PedidoNaoEncontrado("Pedido não encontrado"));
 
-        if(!pedidoEncontrado.getCarrinho()){
+        if (!pedidoEncontrado.getCarrinho()) {
             throw new PedidoNaoPodeSerEditadoException("O pedido não pode ser editado porque está em uma transação");
         }
 
-        Pedido pedidoSavo = repository.save(pedidoEncontrado);
+        pedidoEncontrado.setTipo(dados.tipo());
+        List<Produto> produtos = produtoRepository.findAllById(dados.produtos());
+        pedidoEncontrado.setProdutos(produtos);
 
-        return pedidoListarMapper.toDto(pedidoSavo);
+        BigDecimal precoTotal = produtos.stream()
+                .map(Produto::getPreco)
+                .filter(Objects::nonNull)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        pedidoEncontrado.setPrecoTotal(precoTotal.doubleValue());
+
+        Pedido pedidoSalvo = repository.save(pedidoEncontrado);
+
+        return pedidoListarMapper.toDto(pedidoSalvo);
 
     }
 
-    public ListagemPedidoDto concluirTransacao(ConcluirTransacaDto dto){
+    public ListagemPedidoDto concluirTransacao(ConcluirTransacaDto dto) {
+        System.out.println("--------------bc");
 
         Pedido pedidoEncontrado = repository.findById(dto.idPedido())
                 .orElseThrow(() -> new PedidoNaoPodeSerEditadoException("Pedido não encontrado"));
 
-        UsuarioResumoDto usuarioResumoDto = restTemplate.getForObject("http://localhost:8084/usuario/" + dto.idUsuario(), UsuarioResumoDto.class);
+        UsuarioResumoDto usuarioResumoDto = restTemplate.getForObject(
+                "http://localhost:8084/usuario/" + dto.idUsuario(), UsuarioResumoDto.class);
 
-        ContaDto conta = restTemplate.getForObject("http://localhost:8081/conta/usuario/" + dto.idUsuario(), ContaDto.class);
+        ContaDto conta = restTemplate.getForObject(
+                "http://localhost:8081/conta/usuario/" + dto.idUsuario(), ContaDto.class);
 
-        CartaoDto cartao = restTemplate.getForObject("http://localhost:8081/cartao/conta/" + conta.idConta(), CartaoDto.class);
+        CartaoDto cartao = restTemplate.getForObject(
+                "http://localhost:8081/cartao/conta/" + conta.idConta(), CartaoDto.class);
 
         //Verificando tipo de pagamento pedido e cartão
         String tipoCartao = cartao.tipo();
         String tipoPedido = pedidoEncontrado.getTipo().toString();
 
-        if (!tipoPedido.equalsIgnoreCase(tipoCartao)){
+        if (!tipoPedido.equalsIgnoreCase(tipoCartao)) {
             throw new TransacaoRecusadaTipo("Transação não pode ser confirmada, cartão não é do tipo " + pedidoEncontrado.getTipo());
         }
+        System.out.println("--------------bc");
 
         //logica de credito
-        if (tipoPedido.equalsIgnoreCase("CREDITO") && tipoCartao.equalsIgnoreCase("CREDITO")){
+        if (tipoPedido.equalsIgnoreCase("CREDITO") && tipoCartao.equalsIgnoreCase("CREDITO")) {
             Double disponivel = conta.limite() - conta.credito();
 
-            if (disponivel < pedidoEncontrado.getPrecoTotal()){
+            if (disponivel < pedidoEncontrado.getPrecoTotal()) {
                 throw new CreditoInsuficienteException("O valor disponivel de crédito é insuficiente");
             }
 
-          //restTemplate.exchange("http://localhost:8080/conta/adicionar-credito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal());
+            //restTemplate.exchange("http://localhost:8080/conta/adicionar-credito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal());
 
             restTemplate.getForObject("http://localhost:8081/conta/adicionar-credito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal(), Void.class);
 
+        } else {
 
-
-
-
-        }else{
-
-            if(conta.saldo() < pedidoEncontrado.getPrecoTotal()){
+            if (conta.saldo() < pedidoEncontrado.getPrecoTotal()) {
                 throw new SaldoInsuficienteExcepetion("Saldo insuficiente");
             }
 
             restTemplate.getForObject("http://localhost:8081/conta/adicionar-debito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal(), Void.class);
 
-
-
             //restTemplate.getForObject("http://localhost:8080/conta/valor-debito/" + conta.idConta() + "/" + pedidoEncontrado.getPrecoTotal(), ContaDto.class);
-
         }
         for (Produto produto : pedidoEncontrado.getProdutos()) {
             Produto produtoBanco = produtoRepository.findByIdProduto(produto.getIdProduto())
@@ -153,17 +162,17 @@ public class PedidoService {
             if (produtoBanco.getQuantidade() < 1) {
                 throw new EstoqueInsuficienteException("Produto " + produtoBanco.getNome() + " está fora de estoque.");
             }
-
             // Reduz o estoque (caso queira já alterar o produto)
             produtoBanco.setQuantidade(produtoBanco.getQuantidade() - 1);
             produtoRepository.save(produtoBanco);
         }
 
-
-        pedidoEncontrado.setCarrinho(false);
+        repository.updateCarrinho(pedidoEncontrado.getId());
         Pedido pedidoSavo = repository.save(pedidoEncontrado);
         //assert usuarioResumoDto != null;
         //emailService.enviarConfirmacaoPedido(usuarioResumoDto);
+        System.out.println("--------------bc");
+
         return pedidoListarMapper.toDto(pedidoSavo);
     }
 
