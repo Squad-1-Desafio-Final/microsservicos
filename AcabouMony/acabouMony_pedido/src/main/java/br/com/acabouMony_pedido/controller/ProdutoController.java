@@ -26,35 +26,24 @@ public class ProdutoController {
     }
 
     @GetMapping("/listar/{id}")
-    public ResponseEntity<CadastroProdutoDto> listarProduto(@PathVariable UUID idProduto){
-        return ResponseEntity.status(200).body(service.listar(idProduto));
+    public ResponseEntity<CadastroProdutoDto> listarProduto(@PathVariable UUID id){
+        return ResponseEntity.status(200).body(service.listar(id));
     }
 
     @PatchMapping("/atualizar/{id}")
-    public ResponseEntity<CadastroProdutoDto> atualizarProduto(@PathVariable UUID idProduto, @RequestBody CadastroProdutoDto dto){
-        return ResponseEntity.status(200).body(service.atualizar(idProduto,dto));
+    public ResponseEntity<CadastroProdutoDto> atualizarProduto(@PathVariable UUID id, @RequestBody CadastroProdutoDto dto){
+        return ResponseEntity.status(200).body(service.atualizar(id,dto));
     }
 
     @DeleteMapping("/excluir/{id}")
-    public ResponseEntity<Void> deletarProduto(@PathVariable UUID idProduto){
-        service.deletar(idProduto);
+    public ResponseEntity<Void> deletarProduto(@PathVariable UUID id){
+        service.deletar(id);
         return ResponseEntity.status(204).build();
     }
 
     @GetMapping("/listar")
     public ResponseEntity<List<CadastroProdutoDto>> listarTodos(){
-
         return ResponseEntity.status(200).body(service.listarTodos());
-
     }
-
-    @GetMapping("/findAllById")
-    public ResponseEntity<List<Produto>> listarPorId(@RequestParam(name = "idProduto")List<UUID> idProduto){
-        return ResponseEntity.status(200).body(service.listarId(idProduto));
-    }
-
-
-
-
 
 }
