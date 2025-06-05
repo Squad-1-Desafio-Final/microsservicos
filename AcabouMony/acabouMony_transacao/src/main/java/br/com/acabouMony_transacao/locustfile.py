@@ -1,24 +1,32 @@
 from locust import HttpUser, task, between
+import json
+
 import uuid
 
-class MyUser(HttpUser):
+class TransacaoUser(HttpUser):
     wait_time = between(1, 3)  # Tempo entre requisições
 
-    # Define a URL base como localhost:8083
-    host = "http://localhost:8083"
+    # Define a URL base como localhost:8080/api
+    host = "http://localhost:8080/api"
+
+    # Defina o token aqui
+    bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImpvYW9AZ21haWwuY29tIiwiZXhwIjoxNzQ5MTU0OTE3fQ.TLJ759tImmxtUDOKARj3PH5RVIp6J_fWaMaYgein5yA"
+
+    def get_headers(self):
+        return {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.bearer_token}"
+        }
 
     @task
     def post_cadastro_transacao(self):
-        # Exemplo de dados aleatórios (você pode usar UUIDs reais se necessário)
         payload = {
-            "tipo": "CREDITO",  # ou "DEBITO", dependendo da enumeração
-            "cartao": "2a778538-d8b4-45dc-b2ee-648c077830ad",
-            "usuario": "7ef10a5c-7423-4660-83be-59eb69cb3124",
-            "pedido": "1a400dea-a4f1-4249-ad2c-11d2488894b6"
+            "tipo": "DEBITO",  # ou "DEBITO"
+            "cartao": "403db729-8c78-489b-844b-57a817a52549",
+            "destinatario": "7d66c04d-f5b9-406a-bcf7-db6b065ce7a0",
+            "pedido": "87009c92-c596-4b9f-8d4a-e432392472d4"
         }
 
-        headers = {
-            "Content-Type": "application/json"
-        }
+        headers = self.get_headers()
+        self.client.post("/transacao", data=json.dumps(payload), headers=headers)
 
-        self.client.post("/transacao", json=payload, headers=headers)
