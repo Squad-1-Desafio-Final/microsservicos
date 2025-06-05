@@ -44,4 +44,5 @@ Antes de iniciar os microsserviços, verifique se o banco de dados e o Kafka est
 Em caso de problemas, consulte a documentação oficial do PostgreSQL e do Kafka para obter detalhes sobre configuração e troubleshooting.
 
 📞 Contato:
-Em caso de dúvidas ou sugestões, fique à vontade para abrir uma issue ou enviar um pull request
+Em caso de dúvidas ou sugestões, fique à vontade para enviar um email para:
+turmadamonycasquad@gmail.com
