@@ -1,5 +1,6 @@
 package br.com.acabouMony_pedido.controller;
 
+import br.com.acabouMony_pedido.dto.AtualizacaoPedidoDTO;
 import br.com.acabouMony_pedido.dto.CadastroPedidoDto;
 import br.com.acabouMony_pedido.dto.ConcluirTransacaDto;
 import br.com.acabouMony_pedido.dto.ListagemPedidoDto;
@@ -41,12 +42,13 @@ public class PedidoController {
             return ResponseEntity.status(200).body(service.concluirTransacao(dados));
         }catch (Exception e){
             System.out.println(e.getMessage());
+            System.out.println("--------------a");
         }
         return null;
     }
 
     @PatchMapping("/editar/{id}")
-    public ResponseEntity<ListagemPedidoDto> editar(@PathVariable UUID id, @RequestBody Pedido dados){
+    public ResponseEntity<ListagemPedidoDto> editar(@PathVariable UUID id, @RequestBody AtualizacaoPedidoDTO dados){
         return ResponseEntity.status(200).body(service.editar(id, dados));
     }
 
