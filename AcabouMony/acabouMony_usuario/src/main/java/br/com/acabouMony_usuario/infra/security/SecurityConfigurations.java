@@ -33,6 +33,7 @@ public class    SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/usuario").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/usuario").permitAll()
                         .requestMatchers(HttpMethod.POST, "/endereco").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/endereco/{id}/numero").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

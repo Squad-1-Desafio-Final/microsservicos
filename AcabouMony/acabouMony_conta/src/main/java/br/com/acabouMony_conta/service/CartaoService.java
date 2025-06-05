@@ -5,6 +5,7 @@ import br.com.acabouMony_conta.dto.ListagemCartaoDTO;
 import br.com.acabouMony_conta.entity.Cartao;
 import br.com.acabouMony_conta.mapper.CartaoMapper;
 import br.com.acabouMony_conta.repository.CartaoRepository;
+import br.com.acabouMony_conta.tipos.TipoPagamento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -42,6 +43,7 @@ public class CartaoService {
         cartao.setNumero(gerarNumeroCartao());
         cartao.setCvv(gerarCVV());
         cartao.setValidade(gerarDataValidadeFormatada());
+        cartao.setTipo(TipoPagamento.DEBITO);
         cartaoRepository.save(cartao);
 
         return cartaoMapper.toDto(cartao);

@@ -1,5 +1,7 @@
 package br.com.acabouMony_usuario.controller;
 
+import br.com.acabouMony_usuario.dto.AtualizarComplementoDto;
+import br.com.acabouMony_usuario.dto.AtualizarNumeroDTO;
 import br.com.acabouMony_usuario.dto.CadastroEnderecoDTO;
 import br.com.acabouMony_usuario.entity.Endereco;
 import br.com.acabouMony_usuario.service.EnderecoService;
@@ -71,22 +73,16 @@ public class EnderecoController {
     }
 
     @PatchMapping("/{id}/numero")
-    public ResponseEntity<Void> atualizarNumero(@PathVariable UUID id, @RequestBody Map<String, Integer> updates) {
-        Integer numero = updates.get("numero");
-        if (numero == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        enderecoService.atualizarNumero(id, numero);
+    public ResponseEntity<Void> atualizarNumero(@PathVariable UUID id, @RequestBody AtualizarNumeroDTO dto) {
+
+        enderecoService.atualizarNumero(id, dto.numero());
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{id}/complemento")
-    public ResponseEntity<Void> atualizarComplemento(@PathVariable UUID id, @RequestBody Map<String, String> updates) {
-        String complemento = updates.get("complemento");
-        if (complemento == null || complemento.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        enderecoService.atualizarComplemento(id, complemento);
+    public ResponseEntity<Void> atualizarComplemento(@PathVariable UUID id, @RequestBody AtualizarComplementoDto dto) {
+
+        enderecoService.atualizarComplemento(id, dto.complemento());
         return ResponseEntity.ok().build();
     }
 
