@@ -5,6 +5,9 @@ import br.com.acabouMony_transacao.exception.CartaoNaoEncontrado;
 import br.com.acabouMony_transacao.exception.PedidoComCarrinhoAtivoException;
 import br.com.acabouMony_transacao.exception.PedidoNaoEncontrado;
 import br.com.acabouMony_transacao.exception.UsuarioNaoEncontradoException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 
@@ -32,7 +35,13 @@ public class TransacaoService {
     private RestTemplate restTemplate;
 
     @Autowired
+    private final KafkaTemplate<String, String> kafkaTemplate;
+
+    @Autowired
     private EmailServiceTransacao emailServiceTransacao;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
 //    @Autowired
 //    UsuarioRepository usuarioRepository;
@@ -49,11 +58,17 @@ public class TransacaoService {
     @Autowired
     br.com.acabouMony_transacao.mapper.TransacaoListarMapper transacaoListarMapper;
 
+    public TransacaoService(KafkaTemplate<String, String> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
     public ListagemTransacaoDto criar (CadastroTransacaoDto dados){
 
         CartaoResumoDto cartao = getCartaoResumo(dados);
 
         PedidoResumoDto pedido = getPedidoResumo(dados);
+
+        UsuarioResumoDto usuario = getUsuarioResumo(pedido);
 
 
         //PedidoCarrinhoDto carrinho = restTemplate.getForObject("http://localhost:8082/pedido/" + dados.pedido(), PedidoCarrinhoDto.class);
@@ -65,6 +80,7 @@ public class TransacaoService {
         if (pedido == null){
             throw new PedidoNaoEncontrado("Pedido não encontrado");
         }
+
 
         if (pedido.carrinho()) {
             throw new PedidoComCarrinhoAtivoException("O pedido ainda está com o carrinho ativo");
@@ -78,8 +94,16 @@ public class TransacaoService {
         transacao.setTipo(dados.tipo());
         Transacao transacaoSalva = repository.save(transacao);
 
+        System.out.println(pedido.idUsuario());
 
-        //emailServiceTransacao.enviarConfirmacaoTransacao(transacaoSalva);
+        //emailServiceTransacao.enviarConfirmacaoTransacao(pedido, usuario);
+        EventoEmailDto evento = new EventoEmailDto(pedido.id(), usuario.id());
+        try {
+            String eventoJson = objectMapper.writeValueAsString(evento);
+            kafkaTemplate.send("topico-transacao-email", eventoJson);
+        } catch (Exception e) {
+            e.printStackTrace(); // de preferência, logue esse erro
+        }
 
         return transacaoListarMapper.toTransacaoDto(transacaoSalva);
 
@@ -96,6 +120,7 @@ public class TransacaoService {
 
 
 
+
     public CartaoResumoDto getCartaoResumo(CadastroTransacaoDto dados){
         return restTemplate.getForObject("http://localhost:8081/cartao/"+ dados.cartao(), CartaoResumoDto.class);
     }
@@ -104,4 +129,20 @@ public class TransacaoService {
         return restTemplate.getForObject("http://localhost:8082/pedido/" + dados.pedido(), PedidoResumoDto.class);
     }
 
+    public UsuarioResumoDto getUsuarioResumo(PedidoResumoDto dados){
+        return restTemplate.getForObject("http://localhost:8084/usuario/" + dados.idUsuario(), UsuarioResumoDto.class);
+    }
+
+    @KafkaListener(topics = "topico-transacao-email", groupId = "grupo-email")
+    public void processarEmail(String eventoJson) {
+        try {
+            EventoEmailDto evento = objectMapper.readValue(eventoJson, EventoEmailDto.class);
+            PedidoResumoDto pedido = restTemplate.getForObject("http://localhost:8082/pedido/" + evento.getPedidoId(), PedidoResumoDto.class);
+            UsuarioResumoDto usuario = restTemplate.getForObject("http://localhost:8084/usuario/" + evento.getUsuarioId(), UsuarioResumoDto.class);
+
+            emailServiceTransacao.enviarConfirmacaoTransacao(pedido, usuario);
+        } catch (Exception e) {
+            e.printStackTrace(); // de preferência, logue esse erro
+        }
+    }
 }

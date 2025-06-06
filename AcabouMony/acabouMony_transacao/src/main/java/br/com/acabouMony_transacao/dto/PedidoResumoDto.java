@@ -1,8 +1,13 @@
 package br.com.acabouMony_transacao.dto;
 
+import br.com.acabouMony_transacao.tipos.TipoPagamento;
+
 import java.util.UUID;
 
 public record PedidoResumoDto (
         UUID id,
-        boolean carrinho
+        UUID idUsuario,
+        boolean carrinho,
+        Double precoTotal,
+        TipoPagamento tipo
 ){}

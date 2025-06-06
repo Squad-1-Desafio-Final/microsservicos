@@ -1,5 +1,6 @@
 package br.com.acabouMony_transacao.service;
 
+import br.com.acabouMony_transacao.dto.PedidoResumoDto;
 import br.com.acabouMony_transacao.dto.TransacaoResumoDto;
 import br.com.acabouMony_transacao.dto.UsuarioResumoDto;
 import br.com.acabouMony_transacao.entity.Transacao;
@@ -14,18 +15,23 @@ public class EmailServiceTransacao {
     @Autowired
     private JavaMailSender mailSender;
 
-    public void enviarConfirmacaoTransacao(UsuarioResumoDto dto) {
+    public void enviarConfirmacaoTransacao(PedidoResumoDto pedido, UsuarioResumoDto usuario) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(dto.login());
-        message.setFrom("monicajleamari@gmail.com\n");
-        message.setSubject("Confirmação de Transição");
-        message.setText("Olá " + dto.nome() + " \uD83D\uDE0A\n" +
-                "\n" +
-                "Sua transação foi concluída com sucesso! \uD83D\uDCB8\n" +
-                "\n" +
-                "Caso precise de algo mais, estamos à disposição para ajudar. Conte conosco! ");
+        message.setTo(usuario.login());
+        message.setSubject("Confirmação de Transação Concluída");
 
+        String corpo = "Olá " + usuario.nome() + " 😊\n\n" +
+                "Sua transação foi concluída com sucesso! 💳\n\n" +
+                "🧾 **Resumo do Pedido:**\n" +
+                "- Valor total: R$ " + String.format("%.2f", pedido.precoTotal()) + "\n" +
+                "- Número do pedido: " + pedido.id() + "\n\n" +
+                "Agradecemos pela sua compra!\n" +
+                "Se precisar de qualquer ajuda, estamos à disposição.\n\n" +
+                "Atenciosamente,\n" +
+                "Acabou Mony";
+
+        message.setText(corpo);
         mailSender.send(message);
-        System.out.println("E-mail enviado com sucesso para " + dto.login());
+        System.out.println("E-mail enviado com sucesso para " + usuario.login());
     }
 }
