@@ -78,6 +78,7 @@ public class PedidoService {
         pedido.setPrecoTotal(precoTotal.doubleValue());
 
         Pedido pedidoSalvo = repository.save(pedido);
+        emailService.enviarConfirmacaoPedido(usuario);
 
         return pedidoListarMapper.toDto(pedidoSalvo);
 

@@ -9,7 +9,7 @@ class ProdutoUser(HttpUser):
     host = "http://localhost:8080/api"
 
     # Defina o token aqui
-    bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6Im1haWtvbncuZ29tZXNAZ21haWwuY29tIiwiZXhwIjoxNzQ5MTUzNjE1fQ.6ycfY6yCbF3eiw69gePYJI3_663PoMwvWV25pZy9RxI"
+    bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6Im1haWtvbncuZ29tZXNAZ21haWwuY29tIiwiZXhwIjoxNzQ5MjI1NTAyfQ.sRoWk-4S4CiSvCZaGDzI4-G0WjBag74AZXHSFEv8EEk"
 
     def get_headers(self):
         return {
