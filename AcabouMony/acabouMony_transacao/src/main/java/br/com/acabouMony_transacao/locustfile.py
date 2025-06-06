@@ -10,7 +10,7 @@ class TransacaoUser(HttpUser):
     host = "http://localhost:8080/api"
 
     # Defina o token aqui
-    bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImpvYW9AZ21haWwuY29tIiwiZXhwIjoxNzQ5MTU0OTE3fQ.TLJ759tImmxtUDOKARj3PH5RVIp6J_fWaMaYgein5yA"
+    bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImpvYW9AZ21haWwuY29tIiwiZXhwIjoxNzQ5MjIzNDMyfQ.ZuOvck5Nq6Bn46292tmcbq7wKEtvbiR1oH4YiFgs-C4"
 
     def get_headers(self):
         return {
