@@ -61,7 +61,7 @@ Siga os passos abaixo para testar o sistema utilizando o **Insomnia/Postman**.
 
 **URL:** `POST http://localhost:8084/usuario`  
 **Body (JSON):**
-`json
+
 {
   "nome": "tiago",
   "login": "tiago.elastic@gmail.com",
@@ -71,24 +71,24 @@ Siga os passos abaixo para testar o sistema utilizando o **Insomnia/Postman**.
   "dtNasc": "1990-05-20T00:00:00.000+00:00",
   "role": "admin"
 }
-`
+
 
 ### 🔐 Login do Usuário
 
 **URL:** `POST http://localhost:8084/usuario/login`  
 **Body (JSON):**
-`json
+
 {
   "login": "tiago.elastic@gmail.com",
   "password": "senhaSegura123"
 }
-`
+
 
 ### 🏦 Criação de Conta
 
 **URL:** `POST http://localhost:8080/api/conta`  
 **Body (JSON):**
-`json
+
 {
 	"dataVencimento": "2025-10-12", 
   "limite": 1000.00,
@@ -97,13 +97,13 @@ Siga os passos abaixo para testar o sistema utilizando o **Insomnia/Postman**.
 	"banco": 1,
 	"idUsuario": "2db7e9bb-171b-4147-9df8-ebb739267099"
 }
-`
+
 
 ### 📦 Criação de Produto
 
 **URL:** `POST http://localhost:8080/api/produto/criar`  
 **Body (JSON):**
-`json
+
 {
 "nome": "Fone de Ouvido Bluetooth",
 "preco": 199.99,
@@ -111,13 +111,13 @@ Siga os passos abaixo para testar o sistema utilizando o **Insomnia/Postman**.
 "disponivel": 1,
 "quantidade": 10
 }
-`
+
 
 ### 🛒 Criação de Pedido
 
 **URL:** `POST http://localhost:8080/api/pedido/criar`  
 **Body (JSON):**
-`json
+
 {
   "usuario": "2db7e9bb-171b-4147-9df8-ebb739267099",
 	"tipo": "CREDITO",
@@ -125,31 +125,28 @@ Siga os passos abaixo para testar o sistema utilizando o **Insomnia/Postman**.
     "0f12645f-1907-43d0-acc8-2283cb50bf0e"
   ]
 }
-`
 
 ### ✅ Confirmação do Pedido
 
 **URL:** `PATCH http://localhost:8080/api/pedido/concluir-transacao`  
 **Body (JSON):**
-`json
 {
   "idUsuario": "2db7e9bb-171b-4147-9df8-ebb739267099",
   "idPedido": "d5966c0f-8b53-49fa-a63f-cfedad0356d0"
 }
-`
+
 
 ### 💸 Criação Manual da Transação
 
 **URL:** `POST http://localhost:8080/api/transacao`  
 **Body (JSON):**
-`json
 {
   "tipo": "CREDITO",
   "cartao": "280e40c1-f775-4c0b-8047-8e46a5c6d525",
   "destinatario": "9ffce95b-d383-405e-9432-577534af3825",
   "pedido": "d5966c0f-8b53-49fa-a63f-cfedad0356d0"
 }
-`
+
 OBS: O destinatário não precisa alterar.
 
 
