@@ -7,6 +7,7 @@ class TransacaoUser(HttpUser):
     wait_time = between(1, 3)  # Tempo entre requisições
 
     # Define a URL base como localhost:8080/api
+
     host = "http://localhost:8080/api"
 
     # Defina o token aqui
@@ -14,6 +15,7 @@ class TransacaoUser(HttpUser):
 
     def get_headers(self):
         return {
+        
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.bearer_token}"
         }

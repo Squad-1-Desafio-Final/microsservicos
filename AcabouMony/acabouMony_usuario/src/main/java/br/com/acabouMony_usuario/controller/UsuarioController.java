@@ -101,8 +101,7 @@ public class UsuarioController {
     @PatchMapping("/{id}/senha")
     public ResponseEntity<Usuario> atualizarSenha(@PathVariable UUID id, @RequestBody @Valid AtualizarSenhaUsuarioDTO senhaDTO) {
         try {
-
-            var usuario = usuarioService.atualizarSenha(id, senhaDTO.senha());
+            var usuario = usuarioService.atualizarSenha(id, senhaDTO.password());
             return ResponseEntity.ok(usuario);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();

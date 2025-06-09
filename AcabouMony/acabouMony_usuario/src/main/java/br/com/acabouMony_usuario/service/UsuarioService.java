@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +34,9 @@ public class UsuarioService {
 
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public UsuarioService(KafkaTemplate<String, String> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
@@ -101,12 +105,15 @@ public class UsuarioService {
         return usuarioSalvo;
     }
 
-    public Usuario atualizarSenha(UUID id, String senha) {
+    public Usuario atualizarSenha(UUID id, String password) {
         Usuario usuarioEncontrado = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não existe"));
 
-        usuarioEncontrado.setPassword(senha);
-        usuarioEncontrado.setId(id);
+        String senhaCriptografada = passwordEncoder.encode(password);
+        usuarioEncontrado.setPassword(senhaCriptografada);
+
+//        usuarioEncontrado.setPassword(password);
+//        usuarioEncontrado.setId(id);
 
         return usuarioRepository.save(usuarioEncontrado);
     }

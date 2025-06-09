@@ -32,6 +32,7 @@ public class    SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/usuario/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuario").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/usuario").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/usuario/{id}/senha").permitAll()
                         .requestMatchers(HttpMethod.POST, "/endereco").permitAll()
                         .requestMatchers(HttpMethod.POST, "/endereco/{id}/numero").permitAll()
                         .anyRequest().authenticated()
