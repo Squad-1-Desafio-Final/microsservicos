@@ -61,7 +61,7 @@ Siga os passos abaixo para testar o sistema utilizando o **Insomnia/Postman**.
 
 **URL:** `POST http://localhost:8084/usuario`  
 **Body (JSON):**
-json
+'''json
 {
   "nome": "tiago",
   "login": "tiago.elastic@gmail.com",
@@ -76,7 +76,7 @@ json
 
 **URL:** `POST http://localhost:8084/usuario/login`  
 **Body (JSON):**
-json
+'''json
 {
   "login": "tiago.elastic@gmail.com",
   "password": "senhaSegura123"
@@ -86,7 +86,7 @@ json
 
 **URL:** `POST http://localhost:8080/api/conta`  
 **Body (JSON):**
-json
+'''json
 {
 	"dataVencimento": "2025-10-12", 
   "limite": 1000.00,
@@ -100,7 +100,7 @@ json
 
 **URL:** `POST http://localhost:8080/api/produto/criar`  
 **Body (JSON):**
-json
+'''json
 {
 "nome": "Fone de Ouvido Bluetooth",
 "preco": 199.99,
@@ -113,7 +113,7 @@ json
 
 **URL:** `POST http://localhost:8080/api/pedido/criar`  
 **Body (JSON):**
-json
+'''json
 {
   "usuario": "2db7e9bb-171b-4147-9df8-ebb739267099",
 	"tipo": "CREDITO",
@@ -126,7 +126,7 @@ json
 
 **URL:** `PATCH http://localhost:8080/api/pedido/concluir-transacao`  
 **Body (JSON):**
-json
+'''json
 {
   "idUsuario": "2db7e9bb-171b-4147-9df8-ebb739267099",
   "idPedido": "d5966c0f-8b53-49fa-a63f-cfedad0356d0"
@@ -136,7 +136,7 @@ json
 
 **URL:** `POST http://localhost:8080/api/transacao`  
 **Body (JSON):**
-json
+'''json
 {
   "tipo": "CREDITO",
   "cartao": "280e40c1-f775-4c0b-8047-8e46a5c6d525",
