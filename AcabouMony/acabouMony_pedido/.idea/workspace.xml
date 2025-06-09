@@ -4,7 +4,44 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b38046af-df0c-4664-90d8-529463309f0f" name="Changes" comment="" />
+    <list default="true" id="b38046af-df0c-4664-90d8-529463309f0f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../acabouMony_conta/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_conta/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_conta/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_conta/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_conta/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_conta/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_conta/target/classes/br/com/acabouMony_conta/service/ContaService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_conta/target/classes/br/com/acabouMony_conta/service/ContaService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_produto/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_produto/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_produto/src/main/java/br/com/acabouMony_produto/mapper/ProdutoMapperStruct.java" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_produto/src/main/java/br/com/acabouMony_produto/mapper/ProdutoMapperStruct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_produto/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_produto/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_produto/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_produto/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_produto/target/classes/br/com/acabouMony_produto/mapper/ProdutoMapperStruct.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_produto/target/classes/br/com/acabouMony_produto/mapper/ProdutoMapperStruct.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_produto/target/classes/br/com/acabouMony_produto/mapper/ProdutoMapperStructImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_produto/target/classes/br/com/acabouMony_produto/mapper/ProdutoMapperStructImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_produto/target/generated-sources/annotations/br/com/acabouMony_produto/mapper/ProdutoMapperStructImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_produto/target/generated-sources/annotations/br/com/acabouMony_produto/mapper/ProdutoMapperStructImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_transacao/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_transacao/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_transacao/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_transacao/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_transacao/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_transacao/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/AtualizarComplementoDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/AtualizarComplementoDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/AtualizarEmailUsuarioDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/AtualizarEmailUsuarioDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/AtualizarNomeUsuarioDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/AtualizarNomeUsuarioDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/AtualizarNumeroDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/AtualizarNumeroDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/AtualizarSenhaUsuarioDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/AtualizarSenhaUsuarioDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/AtualizarTelefoneUsuarioDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/AtualizarTelefoneUsuarioDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/AuthenticationDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/AuthenticationDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/CadastroEnderecoDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/CadastroEnderecoDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/CadastroUsuarioDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/CadastroUsuarioDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/ListagemEnderecoDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/ListagemEnderecoDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/ListagemUsuarioDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/ListagemUsuarioDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/LoginResponseDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/LoginResponseDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/RegisterDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/RegisterDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/UsuarioResumoDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/dto/UsuarioResumoDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/infra/security/SecurityConfigurations.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/infra/security/SecurityConfigurations.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/service/EnderecoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/service/EnderecoService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/service/UsuarioService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/classes/br/com/acabouMony_usuario/service/UsuarioService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/generated-sources/annotations/br/com/acabouMony_usuario/mapper/EnderecoMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/generated-sources/annotations/br/com/acabouMony_usuario/mapper/EnderecoMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../acabouMony_usuario/target/generated-sources/annotations/br/com/acabouMony_usuario/mapper/UsuarioMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../acabouMony_usuario/target/generated-sources/annotations/br/com/acabouMony_usuario/mapper/UsuarioMapperImpl.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,9 +50,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "JoaoLazaroSolutis"
+  }
 }]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Squad-1-Desafio-Final/microsservicos.git",
+    "accountId": "d07b1ff5-e6ae-4140-b2d9-e297ee880e98"
+  }
+}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2xVO0LO4f8VZXkc5Ei1odaTVUxl" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -27,9 +76,28 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/maikon.gomes/IdeaProjects/microsservicos/AcabouMony/acabouMony_pedido/pom.xml"
+    "last_opened_file_path": "C:/Users/joao.lneto/Desktop/microsservicos/AcabouMony/acabouMony_pedido/pom.xml",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="AcabouMonyPedidoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="acabouMony_pedido" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="br.com.acabouMony_pedido.AcabouMonyPedidoApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -38,7 +106,11 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1748019550121</updated>
+      <workItem from="1749473829413" duration="50000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>
