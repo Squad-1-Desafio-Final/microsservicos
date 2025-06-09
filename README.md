@@ -60,18 +60,18 @@ Siga os passos abaixo para testar o sistema utilizando o **Insomnia/Postman**.
 ### 👤 Criação de Usuário
 
 **URL:** `POST http://localhost:8084/usuario`  
-**Body (JSON):**
-'''
-{
-  "nome": "tiago",
-  "login": "tiago.elastic@gmail.com",
-  "password": "senhaSegura123",
-  "cpf": "221.536.578-33",
-  "telefone": "(11) 91234-5655",
-  "dtNasc": "1990-05-20T00:00:00.000+00:00",
-  "role": "admin"
-}
+**Body (JSON):**  
 
+``` json {  
+  "nome": "tiago",  
+  "login": "tiago.elastic@gmail.com",  
+  "password": "senhaSegura123",  
+  "cpf": "221.536.578-33",  
+  "telefone": "(11) 91234-5655",  
+  "dtNasc": "1990-05-20T00:00:00.000+00:00",  
+  "role": "admin"  
+}  
+``` 
 
 ### 🔐 Login do Usuário
 
