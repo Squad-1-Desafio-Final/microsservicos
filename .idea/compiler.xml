@@ -28,12 +28,14 @@
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.6.3/mapstruct-1.6.3.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
+        <module name="acabouMony_transacao" />
         <module name="acabouMony_conta" />
         <module name="acabouMony_pedido" />
-        <module name="acabouMony_produto" />
-        <module name="acabouMony_transacao" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="acabouMony_produto" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

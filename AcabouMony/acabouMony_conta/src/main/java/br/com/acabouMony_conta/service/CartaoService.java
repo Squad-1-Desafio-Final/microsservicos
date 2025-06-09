@@ -43,7 +43,7 @@ public class CartaoService {
         cartao.setNumero(gerarNumeroCartao());
         cartao.setCvv(gerarCVV());
         cartao.setValidade(gerarDataValidadeFormatada());
-        cartao.setTipo(TipoPagamento.DEBITO);
+        cartao.setTipo(TipoPagamento.CREDITO);
         cartaoRepository.save(cartao);
 
         return cartaoMapper.toDto(cartao);

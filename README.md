@@ -98,16 +98,15 @@ json
 
 ### 📦 Criação de Produto
 
-**URL:** `POST http://localhost:8080/api/conta`  
+**URL:** `POST http://localhost:8080/api/produto/criar`  
 **Body (JSON):**
 json
 {
-	"dataVencimento": "2025-10-12", 
-  "limite": 1000.00,
-  "agencia": 100,
-  "numero": 123421,
-	"banco": 1,
-	"idUsuario": "2db7e9bb-171b-4147-9df8-ebb739267099"
+"nome": "Fone de Ouvido Bluetooth",
+"preco": 199.99,
+"descricao": "Fone de ouvido com cancelamento de ruído e conexão Bluetooth 5.0",
+"disponivel": 1,
+"quantidade": 10
 }
 
 ### 🛒 Criação de Pedido
@@ -125,7 +124,7 @@ json
 
 ### ✅ Confirmação do Pedido
 
-**URL:** `POST http://localhost:8080/api/pedido/concluir-transacao`  
+**URL:** `PATCH http://localhost:8080/api/pedido/concluir-transacao`  
 **Body (JSON):**
 json
 {
@@ -144,6 +143,7 @@ json
   "destinatario": "9ffce95b-d383-405e-9432-577534af3825",
   "pedido": "d5966c0f-8b53-49fa-a63f-cfedad0356d0"
 }
+OBS: O destinatário não precisa alterar.
 
 
 ### 🛠️ Observações Técnicas
