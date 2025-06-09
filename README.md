@@ -46,3 +46,117 @@ Em caso de problemas, consulte a documentação oficial do PostgreSQL e do Kafka
 📞 Contato:
 Em caso de dúvidas ou sugestões, fique à vontade para enviar um email para:
 turmadamonycasquad@gmail.com
+
+
+
+## 🧪 Testando a API com Insomnia/Postman
+
+Siga os passos abaixo para testar o sistema utilizando o **Insomnia/Postman**. 
+
+> ⚠️ **Importante:** Todas as requisições após o login exigem o token de autenticação (Bearer Token) no **Header**.
+
+---
+
+### 👤 Criação de Usuário
+
+**URL:** `POST http://localhost:8084/usuario`  
+**Body (JSON):**
+json
+{
+  "nome": "tiago",
+  "login": "tiago.elastic@gmail.com",
+  "password": "senhaSegura123",
+  "cpf": "221.536.578-33",
+  "telefone": "(11) 91234-5655",
+  "dtNasc": "1990-05-20T00:00:00.000+00:00",
+  "role": "admin"
+}
+
+### 🔐 Login do Usuário
+
+**URL:** `POST http://localhost:8084/usuario/login`  
+**Body (JSON):**
+json
+{
+  "login": "tiago.elastic@gmail.com",
+  "password": "senhaSegura123"
+}
+
+### 🏦 Criação de Conta
+
+**URL:** `POST http://localhost:8080/api/conta`  
+**Body (JSON):**
+json
+{
+	"dataVencimento": "2025-10-12", 
+  "limite": 1000.00,
+  "agencia": 100,
+  "numero": 123421,
+	"banco": 1,
+	"idUsuario": "2db7e9bb-171b-4147-9df8-ebb739267099"
+}
+
+### 📦 Criação de Produto
+
+**URL:** `POST http://localhost:8080/api/conta`  
+**Body (JSON):**
+json
+{
+	"dataVencimento": "2025-10-12", 
+  "limite": 1000.00,
+  "agencia": 100,
+  "numero": 123421,
+	"banco": 1,
+	"idUsuario": "2db7e9bb-171b-4147-9df8-ebb739267099"
+}
+
+### 🛒 Criação de Pedido
+
+**URL:** `POST http://localhost:8080/api/pedido/criar`  
+**Body (JSON):**
+json
+{
+  "usuario": "2db7e9bb-171b-4147-9df8-ebb739267099",
+	"tipo": "CREDITO",
+  "produtos": [
+    "0f12645f-1907-43d0-acc8-2283cb50bf0e"
+  ]
+}
+
+### ✅ Confirmação do Pedido
+
+**URL:** `POST http://localhost:8080/api/pedido/concluir-transacao`  
+**Body (JSON):**
+json
+{
+  "idUsuario": "2db7e9bb-171b-4147-9df8-ebb739267099",
+  "idPedido": "d5966c0f-8b53-49fa-a63f-cfedad0356d0"
+}
+
+### 💸 Criação Manual da Transação
+
+**URL:** `POST http://localhost:8080/api/transacao`  
+**Body (JSON):**
+json
+{
+  "tipo": "CREDITO",
+  "cartao": "280e40c1-f775-4c0b-8047-8e46a5c6d525",
+  "destinatario": "9ffce95b-d383-405e-9432-577534af3825",
+  "pedido": "d5966c0f-8b53-49fa-a63f-cfedad0356d0"
+}
+
+
+### 🛠️ Observações Técnicas
+📬 Envio de E-mails: Durante a primeira execução, o sistema pode demorar mais de 1 segundo, pois envolve a inicialização do produtor Kafka e conexões SMTP para envio de e-mails.
+
+🚀 Nas execuções subsequentes, o tempo de resposta será menor, já que os componentes já estarão carregados em memória.
+
+### 🤝 Contribuidores
+Este projeto foi desenvolvido com a colaboração de um time dedicado e comprometido. Agradecimentos especiais aos integrantes do squad:
+
+- Eduardo Kendi De Sousa Miyasaki 
+- João Lázaro Neto 
+- Mônica Jiuliani Leamari 
+- Maikon Douglas Da Silva Gomes 
+
+Cada um contribuiu ativamente para o desenvolvimento, testes, arquitetura e melhorias deste sistema. O trabalho em equipe foi essencial para transformar a ideia em um projeto funcional e robusto. 💪🚀
