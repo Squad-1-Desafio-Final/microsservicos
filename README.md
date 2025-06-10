@@ -50,6 +50,11 @@ Em caso de dúvidas ou sugestões, fique à vontade para enviar um email para:
 turmadamonycasquad@gmail.com
 
 
+# Link para endpoints Postman
+
+```
+https://eduardomiyasaki.postman.co/workspace/Eduardo-Miyasaki's-Workspace~5a8a36eb-49de-44a5-8d99-d1dd8145f590/collection/44816139-0852211a-7508-466c-a92d-0f3a2f0113f1?action=share&source=copy-link&creator=44816139
+```
 
 ## 🧪 Testando a API com Insomnia/Postman
 
