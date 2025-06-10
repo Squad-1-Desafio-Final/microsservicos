@@ -177,7 +177,7 @@ Este projeto foi desenvolvido com a colaboração de um time dedicado e comprome
   	- Colaboração no microsserviço de transação
 * Maikon Douglas Da Silva Gomes:
   	- Parte de pedido no microsservico de pedido
-    	- Colaboração no microsserviço de transação
+  	- Colaboração no microsserviço de transação
   	- teste de carga pedido
 
 Desenvolvido em conjunto:
@@ -188,4 +188,4 @@ Desenvolvido em conjunto:
 - Envio de email
 - Mensageria Kafka
 
-Cada um contribuiu ativamente para o desenvolvimento, testes, arquitetura e melhorias deste sistema. O trabalho em equipe foi essencial para transformar a ideia em um projeto funcional e robusto. 💪🚀
+Cada um contribuiu ativamente para o desenvolvimento, testes, arquitetura e melhorias dessa aplicação. O trabalho em equipe foi essencial para transformar a ideia em um projeto funcional e robusto. 💪🚀
