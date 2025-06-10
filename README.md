@@ -162,9 +162,30 @@ OBS: O destinatário não precisa alterar.
 ### 🤝 Contribuidores
 Este projeto foi desenvolvido com a colaboração de um time dedicado e comprometido. Agradecimentos especiais aos integrantes do squad:
 
-- Eduardo Kendi De Sousa Miyasaki 
-- João Lázaro Neto 
-- Mônica Jiuliani Leamari 
-- Maikon Douglas Da Silva Gomes 
+* Eduardo Kendi De Sousa Miyasaki:
+	- Microsserviço de conta
+ 	- teste de carga conta
+	- Colaboração no microsserviço de transação
+* João Lázaro Neto:
+  	- Microsserviço de usuario
+  	- teste de carga usuario
+  	- Arquitetura dos microsservico
+  	- Swagger
+* Mônica Jiuliani Leamari:
+  	- Parte de produto no microsservico de pedido
+  	- teste de carga de transação
+  	- Colaboração no microsserviço de transação
+* Maikon Douglas Da Silva Gomes:
+  	- Parte de pedido no microsservico de pedido
+    	- Colaboração no microsserviço de transação
+  	- teste de carga pedido
+
+Desenvolvido em conjunto:
+- JWT
+- API Gateway
+- Prints de comprovação
+- DER
+- Envio de email
+- Mensageria Kafka
 
 Cada um contribuiu ativamente para o desenvolvimento, testes, arquitetura e melhorias deste sistema. O trabalho em equipe foi essencial para transformar a ideia em um projeto funcional e robusto. 💪🚀
