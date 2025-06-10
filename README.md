@@ -1,4 +1,4 @@
-Microsserviços - Acabou Mony
+# Microsserviços - Acabou Mony
 Este repositório contém a implementação de microsserviços do projeto Acabou Mony.
 
 🗃️ Banco de Dados
@@ -27,12 +27,14 @@ Extraia o arquivo .tgz para obter a pasta do Kafka.
 ⚙️ Inicializando o Zookeeper
 O Zookeeper é necessário para o funcionamento do Kafka.
 No PowerShell (ou terminal equivalente), execute na pasta do Kafka:
+```
 java -cp ".\libs\*;.\config" org.apache.zookeeper.server.quorum.QuorumPeerMain .\config\zookeeper.properties
-
+```
 ⚙️ Inicializando o Kafka
 Em outro terminal na mesma pasta do Kafka, execute:
-
+```
 java -cp ".\libs\*;.\config" kafka.Kafka .\config\server.properties
+```
 
 🚀 Iniciando os Microsserviços
 
